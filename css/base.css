@@ -1,0 +1,46 @@
+/* base.css — Dasar: font, variabel warna, body, dan variabel suasana per waktu. */
+
+/* =========================================================
+   Kalkulator Sederhana — hutan PIXEL ART 8-bit
+   Aturan gaya:
+   - semua sprite tampil di skala 3× (1 piksel gambar = 3px layar)
+   - satu palet bersama; latar & dekorasi punya versi per waktu
+   - panel, tombol, LCD, kotak = gambar 9-slice (border-image)
+   ========================================================= */
+@font-face{font-family:'Press Start 2P';src:url("../assets/pixel/font/press-start-2p.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:'Pixelify Sans';src:url("../assets/pixel/font/pixelify-sans-400.woff2") format("woff2");font-weight:400 600;font-display:swap}
+@font-face{font-family:'Pixelify Sans';src:url("../assets/pixel/font/pixelify-sans-700.woff2") format("woff2");font-weight:700;font-display:swap}
+
+:root{
+  --ink:#1d2b1f;
+  --cream:#fff3c9;
+  --lcd-ink:#1f3a14;
+  --gap:clamp(6px, 2.2vw, 9px);
+  --mood:2.5s;
+  --px:'Press Start 2P', 'Courier New', monospace;
+  --ui:'Pixelify Sans', 'Trebuchet MS', sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+img{image-rendering:pixelated;image-rendering:crisp-edges}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+body{
+  margin:0;min-height:100vh;min-height:100dvh;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:max(16px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right))
+          max(16px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  padding-top:calc(max(16px, env(safe-area-inset-top)) + 126px);
+  font-family:var(--ui);color:var(--cream);
+  background:#3d9be0;overflow-x:hidden;
+}
+body.no-transition *,body.no-transition *::before,body.no-transition *::after{transition:none !important}
+
+/* =========================================================
+   SUASANA PER WAKTU
+   ========================================================= */
+body{--stars-o:.8;--ff-o:1;--animal:brightness(.45) saturate(.7) hue-rotate(20deg);--tint:rgba(0,0,0,0)}
+body[data-period="pagi"]{--stars-o:0;--ff-o:0;--animal:none}
+body[data-period="siang"]{--stars-o:0;--ff-o:0;--animal:none}
+body[data-period="sore"]{--stars-o:0;--ff-o:.4;--animal:brightness(.72) sepia(.25) hue-rotate(-12deg)}
+body[data-period="larut"]{--stars-o:1;--ff-o:.8;--animal:brightness(.32) saturate(.55) hue-rotate(25deg);--tint:rgba(2,6,30,.12)}

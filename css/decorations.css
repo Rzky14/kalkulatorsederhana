@@ -1,0 +1,40 @@
+/* decorations.css — Gambar dekorasi depan per waktu (pohon, semak, batu, tunggul, jamur, papan). */
+
+/* =========================================================
+   DEKORASI PER WAKTU (dibuat otomatis)
+   ========================================================= */
+.d-pohon{background-image:url("../assets/pixel/dekorasi/pohon_malam.png")}
+body[data-period="pagi"] .d-pohon{background-image:url("../assets/pixel/dekorasi/pohon_pagi.png")}
+body[data-period="siang"] .d-pohon{background-image:url("../assets/pixel/dekorasi/pohon_siang.png")}
+body[data-period="sore"] .d-pohon{background-image:url("../assets/pixel/dekorasi/pohon_sore.png")}
+body[data-period="larut"] .d-pohon{background-image:url("../assets/pixel/dekorasi/pohon_larut.png")}
+.d-semak{background-image:url("../assets/pixel/dekorasi/semak_malam.png")}
+body[data-period="pagi"] .d-semak{background-image:url("../assets/pixel/dekorasi/semak_pagi.png")}
+body[data-period="siang"] .d-semak{background-image:url("../assets/pixel/dekorasi/semak_siang.png")}
+body[data-period="sore"] .d-semak{background-image:url("../assets/pixel/dekorasi/semak_sore.png")}
+body[data-period="larut"] .d-semak{background-image:url("../assets/pixel/dekorasi/semak_larut.png")}
+.d-semak2{background-image:url("../assets/pixel/dekorasi/semak_malam.png")}
+body[data-period="pagi"] .d-semak2{background-image:url("../assets/pixel/dekorasi/semak_pagi.png")}
+body[data-period="siang"] .d-semak2{background-image:url("../assets/pixel/dekorasi/semak_siang.png")}
+body[data-period="sore"] .d-semak2{background-image:url("../assets/pixel/dekorasi/semak_sore.png")}
+body[data-period="larut"] .d-semak2{background-image:url("../assets/pixel/dekorasi/semak_larut.png")}
+.d-batu{background-image:url("../assets/pixel/dekorasi/batu_malam.png")}
+body[data-period="pagi"] .d-batu{background-image:url("../assets/pixel/dekorasi/batu_pagi.png")}
+body[data-period="siang"] .d-batu{background-image:url("../assets/pixel/dekorasi/batu_siang.png")}
+body[data-period="sore"] .d-batu{background-image:url("../assets/pixel/dekorasi/batu_sore.png")}
+body[data-period="larut"] .d-batu{background-image:url("../assets/pixel/dekorasi/batu_larut.png")}
+.d-tunggul{background-image:url("../assets/pixel/dekorasi/tunggul_malam.png")}
+body[data-period="pagi"] .d-tunggul{background-image:url("../assets/pixel/dekorasi/tunggul_pagi.png")}
+body[data-period="siang"] .d-tunggul{background-image:url("../assets/pixel/dekorasi/tunggul_siang.png")}
+body[data-period="sore"] .d-tunggul{background-image:url("../assets/pixel/dekorasi/tunggul_sore.png")}
+body[data-period="larut"] .d-tunggul{background-image:url("../assets/pixel/dekorasi/tunggul_larut.png")}
+.d-jamur{background-image:url("../assets/pixel/dekorasi/jamur_malam.png")}
+body[data-period="pagi"] .d-jamur{background-image:url("../assets/pixel/dekorasi/jamur_pagi.png")}
+body[data-period="siang"] .d-jamur{background-image:url("../assets/pixel/dekorasi/jamur_siang.png")}
+body[data-period="sore"] .d-jamur{background-image:url("../assets/pixel/dekorasi/jamur_sore.png")}
+body[data-period="larut"] .d-jamur{background-image:url("../assets/pixel/dekorasi/jamur_larut.png")}
+.d-papan{background-image:url("../assets/pixel/dekorasi/papan_malam.png")}
+body[data-period="pagi"] .d-papan{background-image:url("../assets/pixel/dekorasi/papan_pagi.png")}
+body[data-period="siang"] .d-papan{background-image:url("../assets/pixel/dekorasi/papan_siang.png")}
+body[data-period="sore"] .d-papan{background-image:url("../assets/pixel/dekorasi/papan_sore.png")}
+body[data-period="larut"] .d-papan{background-image:url("../assets/pixel/dekorasi/papan_larut.png")}

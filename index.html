@@ -6,7 +6,14 @@
   <meta name="theme-color" content="#0b1a45" />
   <title>Kalkulator Sederhana</title>
   <link rel="icon" href="assets/pixel/karakter/kelinci_idle.png" type="image/png">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/forest.css">
+  <link rel="stylesheet" href="css/effects.css">
+  <link rel="stylesheet" href="css/calculator.css">
+  <link rel="stylesheet" href="css/mascot.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animals.css">
+  <link rel="stylesheet" href="css/decorations.css">
 </head>
 <body class="no-transition">
   <!-- ===== latar hutan pixel (suasana mengikuti jam) ===== -->
@@ -146,6 +153,18 @@
     <footer class="help">ENTER = hitung · ESC = hapus · M = suara</footer>
   </main>
 
-  <script src="script.js"></script>
+  <!-- urutan penting: class dasar dulu, App.js terakhir -->
+  <script src="js/Util.js"></script>
+  <script src="js/Settings.js"></script>
+  <script src="js/SoundManager.js"></script>
+  <script src="js/Mascot.js"></script>
+  <script src="js/TimeOfDay.js"></script>
+  <script src="js/Scene.js"></script>
+  <script src="js/Effects.js"></script>
+  <script src="js/CalculatorEngine.js"></script>
+  <script src="js/Calculator.js"></script>
+  <script src="js/SoundControls.js"></script>
+  <script src="js/InputController.js"></script>
+  <script src="js/App.js"></script>
 </body>
 </html>

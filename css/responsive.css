@@ -1,0 +1,30 @@
+/* responsive.css — Penyesuaian layar: HP, HP miring (landscape), layar kecil, reduced motion. */
+
+/* =========================================================
+   PENYESUAIAN LAYAR
+   ========================================================= */
+@media (hover:none){.help{display:none}}
+@media (max-height:520px) and (orientation:landscape){
+  body{padding-top:max(10px, env(safe-area-inset-top))}
+  .calculator{width:min(100%, 720px);display:grid;grid-template-columns:1fr 1.25fr;grid-template-rows:auto auto 1fr;column-gap:14px;padding:4px}
+  .top{grid-column:1;margin:-12px 0 6px;justify-content:flex-start;padding-left:58px}
+  .toolbar{grid-column:1;margin-bottom:6px}
+  .display{grid-column:1;margin:0;min-height:0}
+  .buttons{grid-column:2;grid-row:1 / span 3;gap:5px}
+  .buttons button{height:clamp(40px, 14vh, 52px);font-size:15px}
+  .help{display:none}
+  .mascot{top:-40px;left:-14px;right:auto;width:72px}
+  .bubble{left:auto;right:-46px;top:0}
+  .bubble::after{right:auto;left:-9px;transform:scaleX(-1)}
+  .d-pohon{display:none}
+}
+@media (max-width:430px){
+  .toolbar{gap:4px;font-size:15px}
+  .box{padding:2px 2px;gap:4px}
+}
+@media (max-width:360px){
+  .period-badge time{display:none}
+  .top h1{font-size:17px}
+  .logo{height:24px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}

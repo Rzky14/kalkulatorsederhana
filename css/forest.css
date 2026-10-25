@@ -1,0 +1,94 @@
+/* forest.css — Latar hutan: langit, bintang, dekorasi, hewan dasar, burung, kunang-kunang, daun. */
+
+/* =========================================================
+   HUTAN
+   ========================================================= */
+.forest{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none}
+.sky{
+  position:absolute;inset:0;opacity:0;
+  background-size:cover;background-position:center bottom;background-repeat:no-repeat;
+  image-rendering:pixelated;image-rendering:crisp-edges;
+  transition:opacity var(--mood) steps(10);
+}
+.sky-pagi {background-image:url("../assets/pixel/latar/latar_pagi.png")}
+.sky-siang{background-image:url("../assets/pixel/latar/latar_siang.png")}
+.sky-sore {background-image:url("../assets/pixel/latar/latar_sore.png")}
+.sky-malam{background-image:url("../assets/pixel/latar/latar_malam.png")}
+.sky-larut{background-image:url("../assets/pixel/latar/latar_larut.png")}
+@media (min-aspect-ratio:4/5){
+  .sky-pagi {background-image:url("../assets/pixel/latar/latar_pagi_lebar.png")}
+  .sky-siang{background-image:url("../assets/pixel/latar/latar_siang_lebar.png")}
+  .sky-sore {background-image:url("../assets/pixel/latar/latar_sore_lebar.png")}
+  .sky-malam{background-image:url("../assets/pixel/latar/latar_malam_lebar.png")}
+  .sky-larut{background-image:url("../assets/pixel/latar/latar_larut_lebar.png")}
+}
+body[data-period="pagi"] .sky-pagi,body[data-period="siang"] .sky-siang,body[data-period="sore"] .sky-sore,
+body[data-period="malam"] .sky-malam,body[data-period="larut"] .sky-larut,body:not([data-period]) .sky-malam{opacity:1}
+
+.stars{position:absolute;inset:0 0 50% 0;opacity:var(--stars-o);transition:opacity var(--mood) ease}
+.star{position:absolute;width:3px;height:3px;background:#fff;animation:twinkle var(--tw) steps(2) var(--delay) infinite}
+@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
+
+/* dua frame bergantian */
+.flip2{aspect-ratio:var(--ar)}
+.flip2 img{position:absolute;inset:0;width:100%;height:100%}
+.flip2 img:first-child{animation:frame2a var(--fs, .5s) steps(1) infinite}
+.flip2 img:last-child{animation:frame2b var(--fs, .5s) steps(1) infinite}
+@keyframes frame2a{0%{opacity:1}50%{opacity:0}}
+@keyframes frame2b{0%{opacity:0}50%{opacity:1}}
+
+/* dekorasi depan: gambar per waktu (aturan di bagian bawah file) */
+.deco{
+  position:absolute;z-index:3;
+  background-size:100% 100%;background-repeat:no-repeat;
+  image-rendering:pixelated;image-rendering:crisp-edges;
+}
+.d-pohon{width:153px;height:192px;bottom:-9px;transform-origin:50% 100%;animation:treeSway 3s steps(2) infinite}
+.t1{left:-45px}
+.t2{right:-45px;animation-delay:-1.5s}
+@keyframes treeSway{0%,100%{transform:rotate(-1deg)}50%{transform:rotate(1deg)}}
+.d-semak{width:108px;height:54px;left:12vw;bottom:-6px}
+.d-semak2{width:108px;height:54px;right:14vw;bottom:-9px}
+.d-batu{width:60px;height:33px;left:24vw;bottom:9px}
+.d-tunggul{width:54px;height:42px;left:4vw;bottom:24px}
+.d-jamur{width:42px;height:39px;right:28vw;bottom:12px}
+.d-papan{width:66px;height:60px;right:6vw;bottom:30px}
+
+.tint{position:absolute;inset:0;background:var(--tint);transition:background-color var(--mood) ease;z-index:5}
+
+/* hewan */
+.walker{position:absolute;left:0;bottom:4vh;z-index:2;filter:var(--animal);transition:filter var(--mood) steps(6)}
+.deer{width:84px;--ar:28/24;--fs:.4s;animation:walkRight 30s steps(300) infinite}
+.fox{width:72px;--ar:24/14;--fs:.3s;bottom:3vh;animation:walkRight 40s steps(400) -20s infinite}
+.bunny{width:66px;aspect-ratio:22/18;bottom:2.5vh;animation:walkLeft 24s steps(240) -8s infinite}
+.bunny img{position:absolute;inset:0;width:100%;height:100%;opacity:0;animation:frame4 .5s steps(1) infinite}
+.bunny img:nth-child(2){animation-delay:-.375s}
+.bunny img:nth-child(3){animation-delay:-.25s}
+.bunny img:nth-child(4){animation-delay:-.125s}
+@keyframes frame4{0%{opacity:1}25%,100%{opacity:0}}
+@keyframes walkRight{from{transform:translateX(-20vw)}to{transform:translateX(120vw)}}
+@keyframes walkLeft{from{transform:translateX(120vw)}to{transform:translateX(-20vw)}}
+body[data-period="larut"] .deer{animation-duration:46s}
+body[data-period="larut"] .fox{animation-duration:58s}
+
+.birds{position:absolute;inset:0}
+.bird{position:absolute;left:0;width:27px;--ar:9/6;--fs:.36s;z-index:1}
+.bird1{top:14vh;animation:fly 18s steps(180) infinite}
+.bird2{top:19vh;animation:fly 18s steps(180) -.6s infinite}
+.bird3{top:10vh;animation:fly 24s steps(240) -9s infinite}
+@keyframes fly{0%{transform:translate(-10vw,0)}25%{transform:translate(25vw,-3vh)}50%{transform:translate(55vw,1vh)}75%{transform:translate(85vw,-2vh)}100%{transform:translate(115vw,0)}}
+
+.fireflies{position:absolute;inset:0;opacity:var(--ff-o);transition:opacity var(--mood) ease;z-index:4}
+.firefly{
+  position:absolute;width:3px;height:3px;background:#f2ffb0;
+  box-shadow:0 0 0 3px rgba(214,255,120,.25);
+  animation:fireflyMove var(--dur) steps(16) var(--delay) infinite alternate, blink var(--blink) steps(3) var(--delay) infinite;
+}
+@keyframes fireflyMove{to{transform:translate(var(--dx),var(--dy))}}
+@keyframes blink{0%,100%{opacity:.15}50%{opacity:1}}
+body[data-period="pagi"] .firefly,body[data-period="siang"] .firefly,
+body[data-period="pagi"] .star,body[data-period="siang"] .star,body[data-period="sore"] .star{animation-play-state:paused}
+
+.leaves{position:absolute;inset:0;z-index:4}
+.leaf-fall{position:absolute;top:-40px;width:var(--size);height:auto;filter:var(--animal);animation:fall var(--dur) steps(90) var(--delay) infinite}
+@keyframes fall{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(30px,27vh) rotate(90deg)}50%{transform:translate(-20px,55vh) rotate(180deg)}75%{transform:translate(25px,82vh) rotate(270deg)}100%{transform:translate(-10px,115vh) rotate(360deg)}}

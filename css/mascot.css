@@ -1,0 +1,43 @@
+/* mascot.css — Maskot kelinci: pose sprite, gerakan per state, gelembung bicara. */
+
+/* =========================================================
+   MASKOT
+   ========================================================= */
+.mascot{position:absolute;top:-158px;right:-6px;width:120px;z-index:2;pointer-events:none}
+.m-body{position:relative;width:100%;aspect-ratio:40/46;transform-origin:50% 100%}
+.m-body img{position:absolute;inset:0;width:100%;height:100%;opacity:0}
+.m-body img.on{opacity:1}
+.m-body img.blink{animation:blinkFrame 4s steps(1) infinite}
+@keyframes blinkFrame{0%,92%{opacity:0}93%,96%{opacity:1}97%,100%{opacity:0}}
+body[data-period="pagi"] .mascot[data-state="idle"] .m-body{animation:idleHop 1.6s steps(1) infinite}
+body[data-period="siang"] .mascot[data-state="idle"] .m-body{animation:idleBounce 1.2s steps(1) infinite}
+body[data-period="sore"] .mascot[data-state="idle"] .m-body{animation:idleBounce 2.4s steps(1) infinite}
+body[data-period="malam"] .mascot[data-state="idle"] .m-body{animation:idleBounce 3s steps(1) infinite}
+.mascot[data-state="watching"] .m-body{transform:translateX(-3px)}
+.mascot[data-state="curious"] .m-body{animation:perk .4s steps(3)}
+.mascot[data-state="thinking"] .m-body{animation:think .8s steps(1) infinite}
+.mascot[data-state="happy"] .m-body{animation:jump .5s steps(5) 2}
+.mascot[data-state="confused"] .m-body{animation:headShake .4s steps(1) 3}
+.mascot[data-state="celebrating"] .m-body{animation:jump .45s steps(5) 4}
+.mascot[data-state="sleepy"] .m-body{animation:idleBounce 3.4s steps(1) infinite}
+@keyframes idleHop{0%,60%,100%{transform:translateY(0)}70%{transform:translateY(-9px)}80%{transform:translateY(-3px)}}
+@keyframes idleBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes perk{50%{transform:translateY(-9px)}}
+@keyframes think{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
+@keyframes jump{0%,100%{transform:translateY(0)}50%{transform:translateY(-24px)}}
+@keyframes headShake{0%,100%{transform:translateX(0)}33%{transform:translateX(-3px)}66%{transform:translateX(3px)}}
+
+.bubble{
+  position:absolute;top:24px;left:-44px;z-index:1;
+  min-width:45px;height:45px;padding:0 3px;
+  display:grid;place-items:center;
+  border:9px solid transparent;border-image:url("../assets/pixel/ui/gelembung.png") 3 fill / 9px stretch;
+  image-rendering:pixelated;
+  font-family:var(--px);font-size:16px;line-height:1;color:var(--ink);
+  opacity:0;transform:translateY(6px);transition:opacity .1s steps(1),transform .2s steps(2);
+}
+.bubble::after{
+  content:"";position:absolute;right:-9px;bottom:-21px;width:21px;height:18px;
+  background:url("../assets/pixel/ui/gelembung_ekor.png") 0 0/100% 100%;image-rendering:pixelated;
+}
+.bubble.show{opacity:1;transform:none}

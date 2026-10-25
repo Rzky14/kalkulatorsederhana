@@ -1,0 +1,13 @@
+/* effects.css — Efek sekali-jalan: konfeti, bintang jawaban, silang error, kilau. */
+
+/* efek */
+.fx{position:fixed;inset:0;pointer-events:none;z-index:10;overflow:hidden}
+.confetti-piece{position:absolute;width:var(--s);height:auto;animation:burst 1.6s steps(16) forwards}
+@keyframes burst{0%{transform:translate(-50%,-50%) scale(.4);opacity:1}40%{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(1);opacity:1}100%{transform:translate(calc(-50% + var(--tx) * 1.3),calc(-50% + var(--ty) + 260px));opacity:0}}
+.fx-img{position:absolute;transform:translate(-50%,-50%);height:auto}
+.fx-pop{animation:fxPop .9s steps(9) forwards}
+.fx-burst{animation:fxBurst 1s steps(8) forwards}
+.fx-spin{animation:fxSpin .8s steps(8) forwards}
+@keyframes fxPop{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}30%{transform:translate(-50%,-50%) scale(1.15);opacity:1}70%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-80%);opacity:0}}
+@keyframes fxBurst{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}25%{opacity:1}100%{transform:translate(-50%,-50%) scale(1.6);opacity:0}}
+@keyframes fxSpin{0%{transform:translate(-50%,-50%) scale(.4) rotate(0);opacity:0}35%{opacity:1}100%{transform:translate(-50%,-50%) scale(1.4) rotate(180deg);opacity:0}}

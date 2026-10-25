@@ -1,0 +1,117 @@
+/* calculator.css — Panel kalkulator: judul, toolbar, layar LCD, tombol (9-slice). */
+
+/* =========================================================
+   PANEL KALKULATOR (9-slice)
+   ========================================================= */
+.calculator{
+  position:relative;z-index:1;
+  width:min(100%, 372px);margin:auto;
+  padding:clamp(6px, 2vw, 10px);
+  border:24px solid transparent;
+  border-image:url("../assets/pixel/ui/panel.png") 8 fill / 24px stretch;
+  image-rendering:pixelated;image-rendering:crisp-edges;
+  filter:drop-shadow(6px 6px 0 rgba(0,0,0,.28));
+  animation:rise .5s steps(5) both;
+}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+.top{display:flex;align-items:center;justify-content:center;gap:8px;margin:-10px 0 12px}
+.logo{width:auto;height:30px}
+.top h1{
+  margin:0;font-family:var(--ui);font-weight:700;font-size:clamp(18px, 5.2vw, 22px);letter-spacing:.4px;color:var(--cream);
+  text-shadow:2px 2px 0 #102418;
+}
+
+/* kotak toolbar (9-slice) */
+.toolbar{display:flex;align-items:stretch;gap:6px;margin-bottom:12px;font-size:16px;font-weight:600}
+.box{
+  display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  padding:2px 4px;min-height:40px;
+  border:9px solid transparent;border-image:url("../assets/pixel/ui/kotak.png") 3 fill / 9px stretch;
+  image-rendering:pixelated;
+}
+.box > *{margin:-6px 0}
+.period-badge img{width:27px;height:27px}
+.period-badge time{font-variant-numeric:tabular-nums}
+.streak img{width:27px;height:27px}
+.streak b{font-weight:700;min-width:1ch}
+.streak.bump{animation:bump .4s steps(4)}
+@keyframes bump{50%{transform:scale(1.2)}}
+.sound-ctrl{flex:1;min-width:0}
+.icon-btn{width:33px;height:27px;padding:0;border:0;background:none;cursor:pointer;flex:none}
+.icon-btn img{width:33px;height:27px;display:block}
+.icon-btn .ic-off{display:none}
+.icon-btn[aria-pressed="true"] .ic-on{display:none}
+.icon-btn[aria-pressed="true"] .ic-off{display:block}
+.icon-btn:active{transform:translateY(2px)}
+#volume{
+  -webkit-appearance:none;appearance:none;flex:1;min-width:40px;height:9px;margin:0;cursor:pointer;
+  background:linear-gradient(90deg,#5fd16a var(--v,60%),#0b1a10 var(--v,60%));
+  border:3px solid #0b1a10;
+}
+#volume::-webkit-slider-thumb{-webkit-appearance:none;width:21px;height:21px;border:0;background:url("../assets/pixel/ui/geser.png") center/100% 100%;image-rendering:pixelated}
+#volume::-moz-range-thumb{width:21px;height:21px;border:0;border-radius:0;background:url("../assets/pixel/ui/geser.png") center/100% 100%;image-rendering:pixelated}
+#volume:disabled{opacity:.4}
+
+/* layar LCD (9-slice) */
+.display{
+  position:relative;
+  display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end;gap:4px;
+  padding:4px 8px 2px;margin-bottom:14px;min-height:96px;
+  border:12px solid transparent;border-image:url("../assets/pixel/ui/lcd.png") 4 fill / 12px stretch;
+  image-rendering:pixelated;
+}
+.glare{position:absolute;left:-3px;top:-3px;width:36px;height:24px;pointer-events:none}
+#expression{
+  width:100%;border:0;outline:0;background:transparent;text-align:right;
+  font-family:var(--ui);font-size:18px;font-weight:600;color:#4f7f2a;caret-color:transparent;pointer-events:none;
+}
+#result{max-width:100%;text-align:right;overflow-wrap:anywhere;font-family:var(--px);font-size:clamp(22px, 7vw, 27px);line-height:1.2;color:var(--lcd-ink)}
+#result.long{font-size:clamp(13px, 4.2vw, 16px)}
+#result.computing{opacity:.25}
+#result.reveal{animation:reveal .4s steps(4)}
+#result.error{color:#9b1c1c}
+.display.shake{animation:shake .32s steps(4)}
+@keyframes reveal{from{transform:translateY(9px);opacity:0}to{transform:none;opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* tombol (9-slice, ketebalan 3D di bawah) */
+.buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap)}
+.buttons button{
+  --k:krem;
+  position:relative;overflow:hidden;
+  height:clamp(54px, 15.5vw, 63px);padding:0 0 6px;
+  border:12px solid transparent;border-width:12px 12px 15px;
+  border-image:url("../assets/pixel/ui/tombol_krem.png") 4 4 5 4 fill / 12px 12px 15px stretch;
+  background:none;image-rendering:pixelated;
+  font-family:var(--px);font-size:clamp(16px, 4.9vw, 19px);line-height:1;color:var(--ink);
+  cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none;
+  display:grid;place-items:center;
+  animation:keyIn .4s steps(4) both;
+}
+.buttons button > *{pointer-events:none}
+.buttons button:nth-child(4n+1){animation-delay:.06s}
+.buttons button:nth-child(4n+2){animation-delay:.12s}
+.buttons button:nth-child(4n+3){animation-delay:.18s}
+.buttons button:nth-child(4n+4){animation-delay:.24s}
+@keyframes keyIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+.buttons button.fn{border-image-source:url("../assets/pixel/ui/tombol_hijau.png");color:#1f3b1a}
+.buttons button.del{font-size:clamp(11px, 3.4vw, 13px)}
+.buttons button.clear{border-image-source:url("../assets/pixel/ui/tombol_merah.png");color:#fff6f6}
+.buttons button.op{border-image-source:url("../assets/pixel/ui/tombol_jingga.png");color:#5a2a06}
+.buttons button.op{font-family:var(--ui);font-weight:700;font-size:clamp(26px, 8vw, 32px)}
+.buttons button.op.active{border-image-source:url("../assets/pixel/ui/tombol_kuning.png")}
+.buttons button.equals{border-image-source:url("../assets/pixel/ui/tombol_tosca.png");color:#0b3a2c}
+.buttons button.wide{grid-column:span 2}
+/* ditekan: gambar tanpa ketebalan + turun 3px */
+.buttons button:active,.buttons button.pressed{transform:translateY(3px);border-image-source:url("../assets/pixel/ui/tombol_krem_tekan.png")}
+.buttons button.fn:active,.buttons button.fn.pressed{border-image-source:url("../assets/pixel/ui/tombol_hijau_tekan.png")}
+.buttons button.clear:active,.buttons button.clear.pressed{border-image-source:url("../assets/pixel/ui/tombol_merah_tekan.png")}
+.buttons button.op:active,.buttons button.op.pressed{border-image-source:url("../assets/pixel/ui/tombol_jingga_tekan.png")}
+.buttons button.equals:active,.buttons button.equals.pressed{border-image-source:url("../assets/pixel/ui/tombol_tosca_tekan.png")}
+@media (hover:hover){.buttons button:hover{filter:brightness(1.06)}.icon-btn:hover{transform:translateY(-1px)}}
+button:focus-visible{outline:3px dashed var(--cream);outline-offset:2px}
+.ripple{position:absolute;transform:scale(0);background:rgba(255,255,255,.4);pointer-events:none;animation:ripple .3s steps(3) forwards}
+@keyframes ripple{to{transform:scale(2.2);opacity:0}}
+
+.help{margin:12px 0 -8px;font-size:14px;color:var(--cream);opacity:.7;text-align:center}
