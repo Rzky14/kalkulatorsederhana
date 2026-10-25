@@ -338,6 +338,59 @@ body[data-period="malam"] .mascot[data-state="idle"] .m-body{animation:idleBounc
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
 
 /* =========================================================
+   HEWAN TAMBAHAN
+   ========================================================= */
+body{--day-o:0;--night-o:1}
+body[data-period="pagi"],body[data-period="siang"],body[data-period="sore"]{--day-o:1;--night-o:0}
+
+.face-left img{transform:scaleX(-1)}
+.squirrel{width:63px;--ar:21/19;--fs:.28s;bottom:2.6vh;animation:walkRight 22s steps(260) -6s infinite}
+.hedgehog{width:63px;--ar:21/13;--fs:.45s;bottom:1.2vh;animation:walkLeft 70s steps(500) -30s infinite}
+.snail{width:51px;--ar:17/11;--fs:.9s;bottom:.6vh;animation:walkRight 140s steps(700) -60s infinite}
+
+/* katak: diam lalu melompat bolak-balik */
+.frog{position:absolute;left:31vw;bottom:1vh;width:48px;aspect-ratio:16/13;z-index:3;filter:var(--animal);
+  animation:frogJump 6s steps(1) infinite alternate}
+.frog img{position:absolute;inset:0;width:100%;height:100%}
+.frog .fr1{animation:frogA 6s steps(1) infinite alternate}
+.frog .fr2{opacity:0;animation:frogB 6s steps(1) infinite alternate}
+@keyframes frogJump{0%,78%{transform:translate(0,0)}82%{transform:translate(-12px,-18px)}86%{transform:translate(-24px,-27px)}90%{transform:translate(-36px,-18px)}94%,100%{transform:translate(-48px,0)}}
+@keyframes frogA{0%,79%{opacity:1}80%,93%{opacity:0}94%,100%{opacity:1}}
+@keyframes frogB{0%,79%{opacity:0}80%,93%{opacity:1}94%,100%{opacity:0}}
+
+/* kupu-kupu (pagi–sore) & kelelawar (malam) */
+.flyer{position:absolute;left:0;z-index:4;filter:var(--animal)}
+.butterfly{width:33px;--ar:11/9;--fs:.18s;opacity:var(--day-o);transition:opacity var(--mood) ease}
+.bf1{top:58vh;animation:flutter 26s steps(260) infinite}
+.bf2{top:66vh;animation:flutter 32s steps(320) -14s infinite reverse}
+@keyframes flutter{
+  0%{transform:translate(-8vw,0)}12%{transform:translate(10vw,-6vh)}25%{transform:translate(24vw,2vh)}
+  37%{transform:translate(38vw,-8vh)}50%{transform:translate(52vw,-1vh)}62%{transform:translate(66vw,-7vh)}
+  75%{transform:translate(80vw,1vh)}87%{transform:translate(94vw,-5vh)}100%{transform:translate(108vw,0)}}
+.bat{width:51px;--ar:17/9;--fs:.16s;opacity:var(--night-o);transition:opacity var(--mood) ease}
+.bat1{top:12vh;animation:fly 14s steps(140) infinite}
+.bat2{top:22vh;width:39px;animation:fly 19s steps(190) -7s infinite reverse}
+
+/* burung hantu di pohon kiri (malam): berkedip & melirik */
+.owl{position:absolute;left:54px;top:66px;width:48px;aspect-ratio:16/19;opacity:var(--night-o);transition:opacity var(--mood) ease}
+.owl img{position:absolute;inset:0;width:100%;height:100%;opacity:0}
+.owl .ow1{animation:owlA 7s steps(1) infinite}
+.owl .ow2{animation:owlB 7s steps(1) infinite}
+.owl .ow3{animation:owlC 7s steps(1) infinite}
+@keyframes owlA{0%,40%{opacity:1}41%,43%{opacity:0}44%,69%{opacity:1}70%,86%{opacity:0}87%,100%{opacity:1}}
+@keyframes owlB{0%,40%{opacity:0}41%,43%{opacity:1}44%,100%{opacity:0}}
+@keyframes owlC{0%,69%{opacity:0}70%,86%{opacity:1}87%,100%{opacity:0}}
+
+/* hemat CPU: hentikan hewan yang sedang tidak terlihat */
+body[data-period="malam"] .butterfly,body[data-period="malam"] .butterfly img,
+body[data-period="larut"] .butterfly,body[data-period="larut"] .butterfly img,
+body[data-period="pagi"] .bat,body[data-period="pagi"] .bat img,body[data-period="pagi"] .owl img,
+body[data-period="siang"] .bat,body[data-period="siang"] .bat img,body[data-period="siang"] .owl img,
+body[data-period="sore"] .bat,body[data-period="sore"] .bat img,body[data-period="sore"] .owl img{animation-play-state:paused}
+body[data-period="larut"] .squirrel{animation-duration:34s}
+@media (max-height:520px) and (orientation:landscape){.frog{display:none}}
+
+/* =========================================================
    DEKORASI PER WAKTU (dibuat otomatis)
    ========================================================= */
 .d-pohon{background-image:url("assets/pixel/dekorasi/pohon_malam.png")}
