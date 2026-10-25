@@ -36,13 +36,21 @@ class Calculator {
 
   /* ---------- aksi dari pengguna ---------- */
 
-  /** Tambah angka/operator ke ekspresi. */
+  /**
+   * Tambah angka/operator ke ekspresi.
+   * @returns {boolean} false bila input ditolak (mis. operator dobel, titik dobel)
+   */
   append(v) {
     this.#finalize();
     // setelah "=", angka baru memulai hitungan baru; operator melanjutkan hasil
-    if (this.justCalculated && /[0-9.(]/.test(v)) this.expression = '';
+    const start = this.justCalculated && /[0-9.(]/.test(v) ? '' : this.expression;
+    const next = CalculatorEngine.applyInput(start, v);
+    if (next === null) {
+      Util.restartAnim(this.expressionEl, 'nope'); // tanda halus: input tidak sah
+      return false;
+    }
     this.justCalculated = false;
-    this.expression += v;
+    this.expression = next;
     this.render();
 
     if (/[0-9]/.test(v)) {
@@ -53,6 +61,7 @@ class Calculator {
       const sym = Calculator.OP_SYMBOL[v];
       if (sym) this.mascot.react('curious', { duration: 1600, bubble: sym, restart: true });
     }
+    return true;
   }
 
   /** Tombol "=": hitung, tampilkan "berpikir" sebentar, lalu hasil. */
@@ -92,7 +101,7 @@ class Calculator {
 
   /** Perbarui baris ekspresi & sorotan operator. */
   render() {
-    this.expressionEl.value = this.expression || '0';
+    this.expressionEl.value = CalculatorEngine.pretty(this.expression) || '0';
     this.expressionEl.scrollLeft = this.expressionEl.scrollWidth;
     const last = this.expression.slice(-1);
     this.buttons.forEach((b) => b.classList.toggle('active',

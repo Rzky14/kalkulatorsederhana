@@ -115,3 +115,7 @@ button:focus-visible{outline:3px dashed var(--cream);outline-offset:2px}
 @keyframes ripple{to{transform:scale(2.2);opacity:0}}
 
 .help{margin:12px 0 -8px;font-size:14px;color:var(--cream);opacity:.7;text-align:center}
+
+/* input ditolak (mis. operator dobel): baris ekspresi bergetar kecil */
+#expression.nope{animation:nope .24s steps(3)}
+@keyframes nope{0%,100%{transform:translateX(0)}33%{transform:translateX(-3px)}66%{transform:translateX(3px)}}

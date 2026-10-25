@@ -32,6 +32,8 @@ js/                   satu class per file, dimuat berurutan
   InputController.js  tombol layar & keyboard
   App.js              menghubungkan semua class (titik masuk)
 assets/pixel/         semua gambar pixel art + font (lisensi SIL OFL)
+tests/
+  engine.test.js      tes logika hitung — jalankan: node tests/engine.test.js
 ```
 
 ## Waktu & hewan
@@ -45,6 +47,13 @@ assets/pixel/         semua gambar pixel art + font (lisensi SIL OFL)
 | Larut | 22.00–04.59 | burung hantu, kelelawar, landak, siput |
 
 Coba jam tertentu dengan menambahkan `?jam=16:30` di akhir alamat.
+
+## Aturan hitung
+
+- Operator dobel diganti otomatis (`5 + ×` → `5 ×`), titik desimal hanya sekali per angka.
+- Persen seperti kalkulator umum: `200 + 10%` = 220, `200 − 10%` = 180, `50 × 10%` = 5.
+- Operator di akhir diabaikan (`5 +` lalu `=` → 5); kurung yang lupa ditutup ditutup otomatis.
+- Hasil dibulatkan rapi (`0.1 + 0.2` = 0.3); angka sangat besar/kecil memakai notasi `e` dan tetap bisa dihitung lagi.
 
 ## Keyboard
 
