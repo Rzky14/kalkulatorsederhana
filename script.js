@@ -1,5 +1,5 @@
 // =========================================================
-// Kalkulator Sederhana — tema hutan (pixel art)
+// Kalkulator Sederhana — tema hutan (pixel art 8-bit)
 // Bagian:
 //   1. Pengaturan (disimpan di browser)
 //   2. Suara      (Web Audio API, tanpa file audio)
@@ -611,6 +611,7 @@ function syncSoundUI(){
   muteBtn.setAttribute('aria-pressed', String(muted));
   muteBtn.setAttribute('aria-label', muted ? 'Nyalakan suara' : 'Matikan suara');
   volumeEl.value = Math.round(Sound.volume * 100);
+  volumeEl.style.setProperty('--v', volumeEl.value + '%');
   volumeEl.disabled = !Sound.enabled;
 }
 

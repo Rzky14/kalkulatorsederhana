@@ -30,22 +30,21 @@
     <div class="walker deer flip2"><img src="assets/pixel/hewan/rusa_1.png" alt=""><img src="assets/pixel/hewan/rusa_2.png" alt=""></div>
     <div class="walker fox flip2"><img src="assets/pixel/hewan/rubah_1.png" alt=""><img src="assets/pixel/hewan/rubah_2.png" alt=""></div>
     <div class="walker bunny">
-      <img src="assets/pixel/karakter/kelinci_jalan_kiri_1.png" alt="">
-      <img src="assets/pixel/karakter/kelinci_jalan_kiri_2.png" alt="">
-      <img src="assets/pixel/karakter/kelinci_jalan_kiri_3.png" alt="">
-      <img src="assets/pixel/karakter/kelinci_jalan_kiri_4.png" alt="">
+      <img src="assets/pixel/hewan/kelinci_jalan_kiri_1.png" alt="">
+      <img src="assets/pixel/hewan/kelinci_jalan_kiri_2.png" alt="">
+      <img src="assets/pixel/hewan/kelinci_jalan_kiri_3.png" alt="">
+      <img src="assets/pixel/hewan/kelinci_jalan_kiri_4.png" alt="">
     </div>
 
-    <!-- dekorasi tanah -->
-    <img class="deco d-batu" src="assets/pixel/dekorasi/batu.png" alt="">
-    <img class="deco d-jamur" src="assets/pixel/dekorasi/jamur.png" alt="">
-    <img class="deco d-bunga" src="assets/pixel/dekorasi/bunga_merah.png" alt="">
-    <img class="deco d-tunggul" src="assets/pixel/dekorasi/tunggul.png" alt="">
-    <img class="deco d-semak" src="assets/pixel/dekorasi/semak_bunga.png" alt="">
-
-    <!-- pohon depan yang bergoyang -->
-    <img class="tree-near t1" src="assets/pixel/dekorasi/cemara_besar.png" alt="">
-    <img class="tree-near t2" src="assets/pixel/dekorasi/cemara_besar.png" alt="">
+    <!-- dekorasi depan (warnanya mengikuti waktu, diatur di CSS) -->
+    <div class="deco d-tunggul"></div>
+    <div class="deco d-batu"></div>
+    <div class="deco d-jamur"></div>
+    <div class="deco d-papan"></div>
+    <div class="deco d-semak"></div>
+    <div class="deco d-semak2"></div>
+    <div class="deco d-pohon t1"></div>
+    <div class="deco d-pohon t2"></div>
 
     <div class="fireflies"></div>
     <div class="leaves"></div>
@@ -79,18 +78,18 @@
     </div>
 
     <header class="top">
-      <img class="logo" src="assets/pixel/dekorasi/cemara_kecil.png" alt="" aria-hidden="true">
+      <img class="logo" src="assets/pixel/dekorasi/pohon_siang.png" alt="" aria-hidden="true">
       <h1>Kalkulator Sederhana</h1>
     </header>
 
     <div class="toolbar">
-      <span class="period-badge" title="Suasana mengikuti jam perangkat">
+      <span class="box period-badge" title="Suasana mengikuti jam perangkat">
         <img id="periodIcon" src="assets/pixel/item/ikon_malam.png" alt="">
-        <span id="periodLabel">Malam</span>
+        <span id="periodLabel" class="sr-only">Malam</span>
         <time id="clock">--.--</time>
       </span>
-      <span class="streak" id="streak" title="Hitungan berhasil berturut-turut"><img src="assets/pixel/item/bintang.png" alt=""> <b>0</b></span>
-      <div class="sound-ctrl">
+      <span class="box streak" id="streak" title="Hitungan berhasil berturut-turut"><img src="assets/pixel/item/bintang.png" alt=""> <b>0</b></span>
+      <div class="box sound-ctrl">
         <button type="button" id="muteBtn" class="icon-btn" aria-pressed="false" aria-label="Matikan suara" title="Suara (M)">
           <img class="ic-on" src="assets/pixel/ui/ikon_suara_nyala.png" alt="">
           <img class="ic-off" src="assets/pixel/ui/ikon_suara_mati.png" alt="">
@@ -100,6 +99,7 @@
     </div>
 
     <div class="display">
+      <img class="glare" src="assets/pixel/ui/kilap_lcd.png" alt="" aria-hidden="true">
       <input type="text" id="expression" placeholder="0" readonly inputmode="none" tabindex="-1" aria-label="Ekspresi" />
       <div id="result" aria-live="polite">0</div>
     </div>
