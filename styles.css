@@ -37,11 +37,11 @@ body.no-transition *,body.no-transition *::before,body.no-transition *::after{tr
 /* =========================================================
    SUASANA PER WAKTU
    ========================================================= */
-body{--stars-o:.8;--ff-o:1;--birds-o:0;--animal:brightness(.45) saturate(.7) hue-rotate(20deg);--tint:rgba(0,0,0,0)}
-body[data-period="pagi"]{--stars-o:0;--ff-o:0;--birds-o:1;--animal:none}
-body[data-period="siang"]{--stars-o:0;--ff-o:0;--birds-o:1;--animal:none}
-body[data-period="sore"]{--stars-o:0;--ff-o:.4;--birds-o:1;--animal:brightness(.72) sepia(.25) hue-rotate(-12deg)}
-body[data-period="larut"]{--stars-o:1;--ff-o:.8;--birds-o:0;--animal:brightness(.32) saturate(.55) hue-rotate(25deg);--tint:rgba(2,6,30,.12)}
+body{--stars-o:.8;--ff-o:1;--animal:brightness(.45) saturate(.7) hue-rotate(20deg);--tint:rgba(0,0,0,0)}
+body[data-period="pagi"]{--stars-o:0;--ff-o:0;--animal:none}
+body[data-period="siang"]{--stars-o:0;--ff-o:0;--animal:none}
+body[data-period="sore"]{--stars-o:0;--ff-o:.4;--animal:brightness(.72) sepia(.25) hue-rotate(-12deg)}
+body[data-period="larut"]{--stars-o:1;--ff-o:.8;--animal:brightness(.32) saturate(.55) hue-rotate(25deg);--tint:rgba(2,6,30,.12)}
 
 /* =========================================================
    HUTAN
@@ -114,7 +114,7 @@ body[data-period="malam"] .sky-malam,body[data-period="larut"] .sky-larut,body:n
 body[data-period="larut"] .deer{animation-duration:46s}
 body[data-period="larut"] .fox{animation-duration:58s}
 
-.birds{position:absolute;inset:0;opacity:var(--birds-o);transition:opacity var(--mood) ease}
+.birds{position:absolute;inset:0}
 .bird{position:absolute;left:0;width:27px;--ar:9/6;--fs:.36s;z-index:1}
 .bird1{top:14vh;animation:fly 18s steps(180) infinite}
 .bird2{top:19vh;animation:fly 18s steps(180) -.6s infinite}
@@ -130,9 +130,7 @@ body[data-period="larut"] .fox{animation-duration:58s}
 @keyframes fireflyMove{to{transform:translate(var(--dx),var(--dy))}}
 @keyframes blink{0%,100%{opacity:.15}50%{opacity:1}}
 body[data-period="pagi"] .firefly,body[data-period="siang"] .firefly,
-body[data-period="pagi"] .star,body[data-period="siang"] .star,body[data-period="sore"] .star,
-body[data-period="malam"] .bird,body[data-period="malam"] .bird img,
-body[data-period="larut"] .bird,body[data-period="larut"] .bird img{animation-play-state:paused}
+body[data-period="pagi"] .star,body[data-period="siang"] .star,body[data-period="sore"] .star{animation-play-state:paused}
 
 .leaves{position:absolute;inset:0;z-index:4}
 .leaf-fall{position:absolute;top:-40px;width:var(--size);height:auto;filter:var(--animal);animation:fall var(--dur) steps(90) var(--delay) infinite}
@@ -340,8 +338,6 @@ body[data-period="malam"] .mascot[data-state="idle"] .m-body{animation:idleBounc
 /* =========================================================
    HEWAN TAMBAHAN
    ========================================================= */
-body{--day-o:0;--night-o:1}
-body[data-period="pagi"],body[data-period="siang"],body[data-period="sore"]{--day-o:1;--night-o:0}
 
 .face-left img{transform:scaleX(-1)}
 .squirrel{width:63px;--ar:21/19;--fs:.28s;bottom:2.6vh;animation:walkRight 22s steps(260) -6s infinite}
@@ -360,19 +356,19 @@ body[data-period="pagi"],body[data-period="siang"],body[data-period="sore"]{--da
 
 /* kupu-kupu (pagi–sore) & kelelawar (malam) */
 .flyer{position:absolute;left:0;z-index:4;filter:var(--animal)}
-.butterfly{width:33px;--ar:11/9;--fs:.18s;opacity:var(--day-o);transition:opacity var(--mood) ease}
+.butterfly{width:33px;--ar:11/9;--fs:.18s}
 .bf1{top:58vh;animation:flutter 26s steps(260) infinite}
 .bf2{top:66vh;animation:flutter 32s steps(320) -14s infinite reverse}
 @keyframes flutter{
   0%{transform:translate(-8vw,0)}12%{transform:translate(10vw,-6vh)}25%{transform:translate(24vw,2vh)}
   37%{transform:translate(38vw,-8vh)}50%{transform:translate(52vw,-1vh)}62%{transform:translate(66vw,-7vh)}
   75%{transform:translate(80vw,1vh)}87%{transform:translate(94vw,-5vh)}100%{transform:translate(108vw,0)}}
-.bat{width:51px;--ar:17/9;--fs:.16s;opacity:var(--night-o);transition:opacity var(--mood) ease}
+.bat{width:51px;--ar:17/9;--fs:.16s}
 .bat1{top:12vh;animation:fly 14s steps(140) infinite}
 .bat2{top:22vh;width:39px;animation:fly 19s steps(190) -7s infinite reverse}
 
 /* burung hantu di pohon kiri (malam): berkedip & melirik */
-.owl{position:absolute;left:54px;top:66px;width:48px;aspect-ratio:16/19;opacity:var(--night-o);transition:opacity var(--mood) ease}
+.owl{position:absolute;left:54px;top:66px;width:48px;aspect-ratio:16/19}
 .owl img{position:absolute;inset:0;width:100%;height:100%;opacity:0}
 .owl .ow1{animation:owlA 7s steps(1) infinite}
 .owl .ow2{animation:owlB 7s steps(1) infinite}
@@ -381,14 +377,30 @@ body[data-period="pagi"],body[data-period="siang"],body[data-period="sore"]{--da
 @keyframes owlB{0%,40%{opacity:0}41%,43%{opacity:1}44%,100%{opacity:0}}
 @keyframes owlC{0%,69%{opacity:0}70%,86%{opacity:1}87%,100%{opacity:0}}
 
-/* hemat CPU: hentikan hewan yang sedang tidak terlihat */
-body[data-period="malam"] .butterfly,body[data-period="malam"] .butterfly img,
-body[data-period="larut"] .butterfly,body[data-period="larut"] .butterfly img,
-body[data-period="pagi"] .bat,body[data-period="pagi"] .bat img,body[data-period="pagi"] .owl img,
-body[data-period="siang"] .bat,body[data-period="siang"] .bat img,body[data-period="siang"] .owl img,
-body[data-period="sore"] .bat,body[data-period="sore"] .bat img,body[data-period="sore"] .owl img{animation-play-state:paused}
 body[data-period="larut"] .squirrel{animation-duration:34s}
 @media (max-height:520px) and (orientation:landscape){.frog{display:none}}
+
+/* =========================================================
+   JADWAL HEWAN: tiap waktu punya penghuni sendiri
+   pagi : burung, kupu-kupu, tupai, kelinci, rusa
+   siang: burung, kupu-kupu, tupai, katak
+   sore : burung, kelinci, rusa, rubah, landak (+ kunang-kunang)
+   malam: burung hantu, kelelawar, rubah, landak, katak, siput
+   larut: burung hantu, kelelawar, landak, siput
+   ========================================================= */
+.critter{opacity:0;transition:opacity 1.6s steps(8), filter var(--mood) steps(6)}
+body[data-period="pagi"] .critter.t-pagi,
+body[data-period="siang"] .critter.t-siang,
+body[data-period="sore"] .critter.t-sore,
+body[data-period="malam"] .critter.t-malam,
+body[data-period="larut"] .critter.t-larut{opacity:1}
+body:not([data-period]) .critter.t-malam{opacity:1}
+/* hewan yang tidak sedang tampil: animasinya dihentikan (hemat CPU) */
+body[data-period="pagi"] .critter:not(.t-pagi),body[data-period="pagi"] .critter:not(.t-pagi) img,
+body[data-period="siang"] .critter:not(.t-siang),body[data-period="siang"] .critter:not(.t-siang) img,
+body[data-period="sore"] .critter:not(.t-sore),body[data-period="sore"] .critter:not(.t-sore) img,
+body[data-period="malam"] .critter:not(.t-malam),body[data-period="malam"] .critter:not(.t-malam) img,
+body[data-period="larut"] .critter:not(.t-larut),body[data-period="larut"] .critter:not(.t-larut) img{animation-play-state:paused}
 
 /* =========================================================
    DEKORASI PER WAKTU (dibuat otomatis)

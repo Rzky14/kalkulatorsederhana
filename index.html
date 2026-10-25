@@ -21,15 +21,15 @@
 
     <!-- burung (pagi–sore), 2 frame kepak -->
     <div class="birds">
-      <div class="bird bird1 flip2"><img src="assets/pixel/hewan/burung_1.png" alt=""><img src="assets/pixel/hewan/burung_2.png" alt=""></div>
-      <div class="bird bird2 flip2"><img src="assets/pixel/hewan/burung_1.png" alt=""><img src="assets/pixel/hewan/burung_2.png" alt=""></div>
-      <div class="bird bird3 flip2"><img src="assets/pixel/hewan/burung_1.png" alt=""><img src="assets/pixel/hewan/burung_2.png" alt=""></div>
+      <div class="bird bird1 flip2 critter t-pagi t-siang t-sore"><img src="assets/pixel/hewan/burung_1.png" alt=""><img src="assets/pixel/hewan/burung_2.png" alt=""></div>
+      <div class="bird bird2 flip2 critter t-pagi t-siang t-sore"><img src="assets/pixel/hewan/burung_1.png" alt=""><img src="assets/pixel/hewan/burung_2.png" alt=""></div>
+      <div class="bird bird3 flip2 critter t-pagi t-siang t-sore"><img src="assets/pixel/hewan/burung_1.png" alt=""><img src="assets/pixel/hewan/burung_2.png" alt=""></div>
     </div>
 
-    <!-- hewan yang lewat -->
-    <div class="walker deer flip2"><img src="assets/pixel/hewan/rusa_1.png" alt=""><img src="assets/pixel/hewan/rusa_2.png" alt=""></div>
-    <div class="walker fox flip2"><img src="assets/pixel/hewan/rubah_1.png" alt=""><img src="assets/pixel/hewan/rubah_2.png" alt=""></div>
-    <div class="walker bunny">
+    <!-- hewan yang lewat (kelas t-<waktu> = kapan hewan muncul, lihat styles.css) -->
+    <div class="walker deer flip2 critter t-pagi t-sore"><img src="assets/pixel/hewan/rusa_1.png" alt=""><img src="assets/pixel/hewan/rusa_2.png" alt=""></div>
+    <div class="walker fox flip2 critter t-sore t-malam"><img src="assets/pixel/hewan/rubah_1.png" alt=""><img src="assets/pixel/hewan/rubah_2.png" alt=""></div>
+    <div class="walker bunny critter t-pagi t-sore">
       <img src="assets/pixel/hewan/kelinci_jalan_kiri_1.png" alt="">
       <img src="assets/pixel/hewan/kelinci_jalan_kiri_2.png" alt="">
       <img src="assets/pixel/hewan/kelinci_jalan_kiri_3.png" alt="">
@@ -37,14 +37,14 @@
     </div>
 
     <!-- hewan tambahan -->
-    <div class="walker squirrel flip2"><img src="assets/pixel/hewan/tupai_1.png" alt=""><img src="assets/pixel/hewan/tupai_2.png" alt=""></div>
-    <div class="walker hedgehog flip2 face-left"><img src="assets/pixel/hewan/landak_1.png" alt=""><img src="assets/pixel/hewan/landak_2.png" alt=""></div>
-    <div class="walker snail flip2"><img src="assets/pixel/hewan/siput_1.png" alt=""><img src="assets/pixel/hewan/siput_2.png" alt=""></div>
-    <div class="frog"><img class="fr1" src="assets/pixel/hewan/katak_1.png" alt=""><img class="fr2" src="assets/pixel/hewan/katak_2.png" alt=""></div>
-    <div class="flyer butterfly bf1 flip2"><img src="assets/pixel/hewan/kupu_pink_1.png" alt=""><img src="assets/pixel/hewan/kupu_pink_2.png" alt=""></div>
-    <div class="flyer butterfly bf2 flip2"><img src="assets/pixel/hewan/kupu_biru_1.png" alt=""><img src="assets/pixel/hewan/kupu_biru_2.png" alt=""></div>
-    <div class="flyer bat bat1 flip2"><img src="assets/pixel/hewan/kelelawar_1.png" alt=""><img src="assets/pixel/hewan/kelelawar_2.png" alt=""></div>
-    <div class="flyer bat bat2 flip2"><img src="assets/pixel/hewan/kelelawar_1.png" alt=""><img src="assets/pixel/hewan/kelelawar_2.png" alt=""></div>
+    <div class="walker squirrel flip2 critter t-pagi t-siang"><img src="assets/pixel/hewan/tupai_1.png" alt=""><img src="assets/pixel/hewan/tupai_2.png" alt=""></div>
+    <div class="walker hedgehog flip2 face-left critter t-sore t-malam t-larut"><img src="assets/pixel/hewan/landak_1.png" alt=""><img src="assets/pixel/hewan/landak_2.png" alt=""></div>
+    <div class="walker snail flip2 critter t-malam t-larut"><img src="assets/pixel/hewan/siput_1.png" alt=""><img src="assets/pixel/hewan/siput_2.png" alt=""></div>
+    <div class="frog critter t-siang t-malam"><img class="fr1" src="assets/pixel/hewan/katak_1.png" alt=""><img class="fr2" src="assets/pixel/hewan/katak_2.png" alt=""></div>
+    <div class="flyer butterfly bf1 flip2 critter t-pagi t-siang"><img src="assets/pixel/hewan/kupu_pink_1.png" alt=""><img src="assets/pixel/hewan/kupu_pink_2.png" alt=""></div>
+    <div class="flyer butterfly bf2 flip2 critter t-pagi t-siang"><img src="assets/pixel/hewan/kupu_biru_1.png" alt=""><img src="assets/pixel/hewan/kupu_biru_2.png" alt=""></div>
+    <div class="flyer bat bat1 flip2 critter t-malam t-larut"><img src="assets/pixel/hewan/kelelawar_1.png" alt=""><img src="assets/pixel/hewan/kelelawar_2.png" alt=""></div>
+    <div class="flyer bat bat2 flip2 critter t-malam t-larut"><img src="assets/pixel/hewan/kelelawar_1.png" alt=""><img src="assets/pixel/hewan/kelelawar_2.png" alt=""></div>
 
     <!-- dekorasi depan (warnanya mengikuti waktu, diatur di CSS) -->
     <div class="deco d-tunggul"></div>
@@ -55,7 +55,7 @@
     <div class="deco d-semak2"></div>
     <div class="deco d-pohon t1">
       <!-- burung hantu bertengger (malam) -->
-      <div class="owl"><img class="ow1" src="assets/pixel/hewan/burung_hantu_1.png" alt=""><img class="ow2" src="assets/pixel/hewan/burung_hantu_2.png" alt=""><img class="ow3" src="assets/pixel/hewan/burung_hantu_3.png" alt=""></div>
+      <div class="owl critter t-malam t-larut"><img class="ow1" src="assets/pixel/hewan/burung_hantu_1.png" alt=""><img class="ow2" src="assets/pixel/hewan/burung_hantu_2.png" alt=""><img class="ow3" src="assets/pixel/hewan/burung_hantu_3.png" alt=""></div>
     </div>
     <div class="deco d-pohon t2"></div>
 
