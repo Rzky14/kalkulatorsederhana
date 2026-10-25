@@ -1,11 +1,11 @@
 // =========================================================
-// Kalkulator Sederhana — tema hutan
+// Kalkulator Sederhana — tema hutan (pixel art)
 // Bagian:
 //   1. Pengaturan (disimpan di browser)
 //   2. Suara      (Web Audio API, tanpa file audio)
 //   3. Maskot     (state reaksi + state dasar sesuai waktu)
 //   4. Waktu      (suasana otomatis dari jam perangkat)
-//   5. Pemandangan (kunang-kunang, bintang, daun, konfeti)
+//   5. Pemandangan & efek (kunang-kunang, bintang, daun, efek gambar)
 //   6. Kalkulator (logika hitung)
 //   7. Input      (tombol layar, keyboard, pengaturan suara)
 // =========================================================
@@ -144,56 +144,77 @@ const Sound = (() => {
    - base     : state dasar dari waktu (idle / sleepy)
    - reaction : state sementara dari interaksi
    Yang tampil = reaction || base. Hanya ada SATU timer reaksi,
-   jadi reaksi tidak pernah bertabrakan.
+   jadi reaksi tidak pernah bertabrakan. Setiap state memakai
+   gambar pose dari folder assets/karakter.
 --------------------------------------------------------- */
 const Mascot = (() => {
   const el = $('#mascot');
   const bubble = $('#bubble');
+  const poses = {};
+  el.querySelectorAll('img[data-pose]').forEach(img => { poses[img.dataset.pose] = img; });
+
+  // pose dasar (idle) berbeda tiap waktu
+  const IDLE_POSE = { pagi: 'menyapa', siang: 'idle', sore: 'membaca', malam: 'duduk', larut: 'tidur' };
+  const REACTION_POSE = {
+    watching: 'idle', curious: 'siap', thinking: 'berpikir',
+    confused: 'bingung', sad: 'sedih', celebrating: 'menyemangati', sleepy: 'tidur'
+  };
+  const HAPPY_POSES = ['thumbs_up', 'senang', 'lompat'];
+
   let base = 'idle';
+  let period = 'malam';
   let reaction = null;
+  let reactionPose = null;
   let bubbleText = null;
   let timer = null;
 
-  const BUBBLES = {
-    thinking: '<span class="dots"><i></i><i></i><i></i></span>',
-    happy: '👍',
-    confused: '?',
-    celebrating: '🎉',
-    sleepy: 'Zz'
-  };
+  function poseFor(state){
+    if(reaction && reactionPose) return reactionPose;
+    if(state === 'idle') return IDLE_POSE[period] || 'idle';
+    return REACTION_POSE[state] || 'idle';
+  }
 
   function render(restart){
     const state = reaction || base;
-    if(restart || el.dataset.state !== state){
-      if(restart){ el.removeAttribute('data-state'); void el.offsetWidth; } // ulang animasi
-      el.dataset.state = state;
+    const css = state === 'sad' ? 'confused' : state;   // gerakan "sedih" = gerakan bingung
+    if(restart || el.dataset.state !== css){
+      if(restart){ el.removeAttribute('data-state'); void el.offsetWidth; }
+      el.dataset.state = css;
     }
-    const content = (reaction && bubbleText) || BUBBLES[state] || '';
-    bubble.innerHTML = content;
+    const pose = poseFor(state);
+    for(const [name, img] of Object.entries(poses)){
+      const on = name === pose || (pose === 'duduk' && name === 'duduk_kedip');
+      img.classList.toggle('on', on && name !== 'duduk_kedip');
+      img.classList.toggle('blink', on && name === 'duduk_kedip'); // malam: sesekali berkedip
+    }
+    const content = (reaction && bubbleText) || '';
+    bubble.textContent = content;
     bubble.classList.toggle('show', !!content);
-    bubble.classList.toggle('zz', state === 'sleepy');
   }
 
   return {
     react(state, { duration = 0, bubble: text = null, restart = false } = {}){
       clearTimeout(timer);
       reaction = state;
+      reactionPose = state === 'happy' ? HAPPY_POSES[Math.floor(Math.random() * HAPPY_POSES.length)] : REACTION_POSE[state] || null;
       bubbleText = text;
       render(restart);
       if(duration){
-        timer = setTimeout(() => { reaction = null; bubbleText = null; render(); }, duration);
+        timer = setTimeout(() => { reaction = null; reactionPose = null; bubbleText = null; render(); }, duration);
       }
     },
     reset(){
       clearTimeout(timer);
-      reaction = null; bubbleText = null;
+      reaction = null; reactionPose = null; bubbleText = null;
       render();
     },
-    setBase(state){
+    setBase(state, p){
       base = state;
+      if(p) period = p;
       render(); // jika sedang bereaksi, reaksi tetap jalan; base dipakai setelahnya
     },
-    get state(){ return el.dataset.state; }
+    get state(){ return el.dataset.state; },
+    get pose(){ const on = el.querySelector('img.on'); return on ? on.dataset.pose : null; }
   };
 })();
 
@@ -241,13 +262,15 @@ const TimeOfDay = (() => {
     if(clock !== lastClock){ clockEl.textContent = clock; lastClock = clock; }
     const p = periodOf(d);
     if(p === current) return; // tidak ada perubahan → tidak ada render ulang
+    const first = current === null;
     current = p;
     document.body.dataset.period = p;
     labelEl.textContent = INFO[p].label;
     labelEl.parentElement.title = (p === 'larut' ? 'Larut malam' : INFO[p].label) + ' — suasana mengikuti jam perangkat';
-    iconEl.textContent = INFO[p].icon;
+    iconEl.src = A + 'item/ikon_' + p + '.png';
     if(metaTheme) metaTheme.setAttribute('content', INFO[p].theme);
-    Mascot.setBase(p === 'larut' ? 'sleepy' : 'idle');
+    Mascot.setBase(p === 'larut' ? 'sleepy' : 'idle', p);
+    if(!first) Fx.period();
   }
 
   // satu timer saja, disetel tepat ke pergantian menit berikutnya
@@ -275,8 +298,9 @@ const TimeOfDay = (() => {
 })();
 
 /* ---------------------------------------------------------
-   5. PEMANDANGAN
+   5. PEMANDANGAN & EFEK
 --------------------------------------------------------- */
+const A = 'assets/pixel/';
 const Scene = {
   build(){
     if(reduceMotion) return;
@@ -297,51 +321,76 @@ const Scene = {
     }
 
     const st = $('.stars');
-    for(let i = 0; i < (small ? 28 : 55); i++){
+    for(let i = 0; i < (small ? 20 : 40); i++){
       const s = document.createElement('span');
       s.className = 'star';
       s.style.left = rand(0, 100) + '%';
       s.style.top = rand(0, 100) + '%';
-      if(Math.random() < .2){ s.style.width = s.style.height = '3px'; }
+      if(Math.random() < .25){ s.style.width = s.style.height = '3px'; }
       s.style.setProperty('--tw', rand(2, 5) + 's');
       s.style.setProperty('--delay', -rand(0, 5) + 's');
       st.appendChild(s);
     }
 
+    // daun berguguran memakai gambar aset daun
     const lv = $('.leaves');
-    const colors = ['#4ade80', '#a3e635', '#facc15', '#65a30d', '#f59e0b'];
-    for(let i = 0; i < (small ? 8 : 14); i++){
-      const l = document.createElement('span');
+    const leafs = ['daun_hijau', 'daun_tua', 'daun_gugur', 'daun_hijau', 'daun_gugur'];
+    for(let i = 0; i < (small ? 7 : 12); i++){
+      const l = document.createElement('img');
       l.className = 'leaf-fall';
+      l.src = A + 'item/' + leafs[i % leafs.length] + '.png';
+      l.alt = '';
       l.style.left = rand(0, 100) + 'vw';
-      l.style.setProperty('--size', rand(10, 18) + 'px');
-      l.style.setProperty('--color', colors[i % colors.length]);
+      l.style.setProperty('--size', (Math.random() < .5 ? 16 : 24) + 'px');
       l.style.setProperty('--dur', rand(10, 18) + 's');
       l.style.setProperty('--delay', -rand(0, 18) + 's');
       lv.appendChild(l);
     }
-  },
+  }
+};
 
-  // konfeti daun & bintang keluar dari maskot; setiap kepingan dihapus setelah selesai
-  confetti(){
+// efek gambar sekali-jalan; setiap elemen dihapus setelah animasinya selesai
+const Fx = {
+  layer: $('.fx'),
+  img(src, x, y, size, anim){
     if(reduceMotion) return;
-    const layer = $('.confetti');
-    const r = $('#mascot').getBoundingClientRect();
-    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    const colors = ['#4ade80', '#a3e635', '#facc15', '#f472b6', '#38bdf8', '#fb923c'];
-    for(let i = 0; i < 30; i++){
-      const p = document.createElement('span');
-      p.className = 'confetti-piece' + (i % 3 === 0 ? ' star-piece' : '');
+    const im = document.createElement('img');
+    im.src = A + src;
+    im.alt = '';
+    im.className = 'fx-img ' + anim;
+    im.style.left = x + 'px';
+    im.style.top = y + 'px';
+    im.style.width = size + 'px';
+    im.addEventListener('animationend', () => im.remove(), { once: true });
+    this.layer.appendChild(im);
+  },
+  at(el, fx = .5, fy = .5){
+    const r = el.getBoundingClientRect();
+    return [r.left + r.width * fx, r.top + r.height * fy];
+  },
+  success(){ const [x, y] = this.at($('.display'), .86, .3); this.img('efek/jawaban_bintang.png', x, y, 63, 'fx-pop'); },
+  error(){ const [x, y] = this.at($('.display'), .5, .45); this.img('efek/error_silang.png', x, y, 68, 'fx-pop'); },
+  clear(){ const [x, y] = this.at($('.display'), .5, .5); this.img('efek/transisi_sapuan.png', x, y, 140, 'fx-burst'); },
+  period(){ const [x, y] = this.at($('.period-badge'), .2, .5); this.img('efek/transisi_kilau.png', x, y, 52, 'fx-spin'); },
+  celebrate(){
+    if(reduceMotion) return;
+    const [cx, cy] = this.at($('#mascot'), .5, .45);
+    this.img('efek/jawaban_kembang_api.png', cx, cy, 145, 'fx-burst');
+    const pieces = ['item/bintang', 'item/kilau', 'item/hati', 'item/daun_hijau', 'item/daun_gugur', 'item/bintang_biru'];
+    for(let i = 0; i < 24; i++){
+      const p = document.createElement('img');
+      p.className = 'confetti-piece';
+      p.src = A + pieces[i % pieces.length] + '.png';
+      p.alt = '';
       p.style.left = cx + 'px';
       p.style.top = cy + 'px';
-      p.style.setProperty('--s', rand(8, 15) + 'px');
-      p.style.setProperty('--c', colors[i % colors.length]);
+      p.style.setProperty('--s', (i % 2 ? 18 : 27) + 'px');
       p.style.setProperty('--tx', rand(-170, 170) + 'px');
       p.style.setProperty('--ty', rand(-190, -50) + 'px');
       p.style.setProperty('--r', rand(-540, 540) + 'deg');
       p.style.animationDelay = rand(0, .12) + 's';
       p.addEventListener('animationend', () => p.remove(), { once: true });
-      layer.appendChild(p);
+      this.layer.appendChild(p);
     }
   }
 };
@@ -363,6 +412,7 @@ const CELEBRATE_EVERY = 3;     // rayakan setiap 3 hitungan berhasil berturut-tu
 let expression = '';
 let justCalculated = false;
 let streak = 0;
+let errorStreak = 0;           // error berturut-turut
 let pending = null;            // hasil yang sedang "dipikirkan"
 
 function updateDisplay(){
@@ -438,17 +488,22 @@ function finalize(){
 
   if(res === 'Error'){
     setStreak(0);
+    errorStreak++;
     Sound.play('error');
-    Mascot.react('confused', { duration: 2200, restart: true });
+    Fx.error();
+    // error pertama: bingung; error berulang: sedih ringan (mengajak mencoba lagi)
+    Mascot.react(errorStreak >= 2 ? 'sad' : 'confused', { duration: 2200, restart: true });
   } else {
+    errorStreak = 0;
     setStreak(streak + 1);
     if(streak % CELEBRATE_EVERY === 0){
       Sound.play('celebrate');
       Mascot.react('celebrating', { duration: 2400, restart: true });
-      Scene.confetti();
+      Fx.celebrate();
     } else {
       Sound.play('success');
       Mascot.react('happy', { duration: 1800, restart: true });
+      Fx.success();
     }
   }
 }
@@ -489,6 +544,7 @@ function append(v){
 }
 
 function clearAll(){
+  const had = expression !== '' || resultEl.textContent !== '0';
   cancelPending();
   expression = '';
   justCalculated = false;
@@ -496,6 +552,7 @@ function clearAll(){
   resultEl.textContent = '0';
   updateDisplay();
   Sound.play('clear');
+  if(had) Fx.clear();
   Mascot.reset();
 }
 

@@ -1,30 +1,37 @@
 /* =========================================================
-   Kalkulator Sederhana — tema hutan
-   Suasana (langit, cahaya, hewan) diatur oleh body[data-period]
-   yang diisi otomatis dari jam perangkat (lihat script.js).
+   Kalkulator Sederhana — tema hutan PIXEL ART
+   Semua gambar adalah PNG kecil yang diperbesar dengan
+   image-rendering: pixelated, jadi pikselnya tetap tajam.
+   Suasana diatur oleh body[data-period] (lihat script.js).
    ========================================================= */
+/* font pixel disertakan di proyek (lisensi SIL OFL) — tetap tampil saat offline */
+@font-face{font-family:'Press Start 2P';src:url("assets/pixel/font/press-start-2p.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:'Pixelify Sans';src:url("assets/pixel/font/pixelify-sans-400.woff2") format("woff2");font-weight:400 600;font-display:swap}
+@font-face{font-family:'Pixelify Sans';src:url("assets/pixel/font/pixelify-sans-700.woff2") format("woff2");font-weight:700;font-display:swap}
+
 :root{
-  --card:rgba(10, 46, 31, 0.55);
-  --card-border:rgba(134, 239, 172, 0.18);
-  --key:rgba(255,255,255,0.06);
-  --key-hover:rgba(255,255,255,0.11);
-  --key-text:#ecfdf5;
-  --fn:rgba(134, 239, 172, 0.14);
-  --fn-text:#bbf7d0;
-  --op:rgba(52, 211, 153, 0.22);
-  --op-text:#6ee7b7;
-  --accent-1:#34d399;
-  --accent-2:#10b981;
-  --accent-3:#059669;
-  --muted:#86b8a0;
-  --danger:#fca5a5;
-  --radius:18px;
-  --gap:clamp(8px, 2.6vw, 12px);
-  --mood:2.5s; /* durasi transisi suasana */
+  --ink:#2a1f2b;
+  --panel:#1d3326;
+  --panel-hi:#2f5a3f;
+  --panel-lo:#0b1510;
+  --lcd:#9bbc0f;
+  --lcd-dark:#0f380f;
+  --lcd-mid:#306230;
+  --key:#efe3c6;
+  --key-text:#2a1f2b;
+  --fn:#b8d98a;
+  --op:#ffb13d;
+  --eq:#3fd1a8;
+  --label:#d8f5c0;
+  --gap:clamp(7px, 2.4vw, 10px);
+  --mood:2.5s;
+  --px:'Press Start 2P', 'Courier New', monospace;
+  --ui:'Pixelify Sans', 'Trebuchet MS', sans-serif;
 }
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
+img{image-rendering:pixelated;image-rendering:crisp-edges}
 
 body{
   margin:0;
@@ -33,15 +40,14 @@ body{
   display:flex;
   align-items:flex-start;
   justify-content:center;
-  padding:max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
-          max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
-  padding-top:calc(max(16px, env(safe-area-inset-top)) + 72px); /* ruang untuk maskot */
-  font-family:'Outfit', 'Segoe UI', Roboto, Arial, sans-serif;
-  color:var(--key-text);
-  background:#04170d;
+  padding:max(16px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right))
+          max(16px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+  padding-top:calc(max(16px, env(safe-area-inset-top)) + 128px); /* ruang untuk maskot */
+  font-family:var(--ui);
+  color:var(--label);
+  background:#0b1a45;
   overflow-x:hidden;
 }
-/* saat pertama dibuka: langsung tampil di suasana yang benar, tanpa transisi */
 body.no-transition *,
 body.no-transition *::before,
 body.no-transition *::after{transition:none !important}
@@ -50,62 +56,59 @@ body.no-transition *::after{transition:none !important}
    SUASANA PER WAKTU
    ========================================================= */
 body{ /* default = malam */
-  --sun-x:85vw; --sun-y:75vh; --sun-o:0; --sun-glow:rgba(253,230,138,.5); --sun-filter:hue-rotate(0deg) saturate(1);
-  --moon-x:78vw; --moon-y:8vh; --moon-o:1;
-  --rays-o:.35; --stars-o:.7; --ff-o:1; --birds-o:0;
-  --land:brightness(1) sepia(0) saturate(1) hue-rotate(0deg);
+  --stars-o:.8; --ff-o:1; --birds-o:0;
+  --deco:brightness(.42) saturate(.7) hue-rotate(25deg);
   --tint:rgba(0,0,0,0);
+  --panel:#1b2f3a; --panel-hi:#2e4f63;
 }
 body[data-period="pagi"]{
-  --sun-x:10vw; --sun-y:20vh; --sun-o:1; --sun-glow:rgba(253,230,138,.55);
-  --moon-o:0; --moon-x:85vw; --moon-y:-20vh;
-  --rays-o:.9; --stars-o:0; --ff-o:0; --birds-o:1;
-  --land:brightness(1.9) sepia(0) saturate(1.05) hue-rotate(0deg);
-  --tint:rgba(255,236,170,.06);
-  --card:rgba(8, 56, 36, 0.58);
+  --stars-o:0; --ff-o:0; --birds-o:1;
+  --deco:brightness(1) saturate(1) hue-rotate(0deg);
+  --tint:rgba(255,236,170,.04);
+  --panel:#1d3a28; --panel-hi:#326a45;
 }
 body[data-period="siang"]{
-  --sun-x:68vw; --sun-y:5vh; --sun-o:1; --sun-glow:rgba(255,251,235,.65);
-  --moon-o:0; --moon-x:85vw; --moon-y:-20vh;
-  --rays-o:.6; --stars-o:0; --ff-o:0; --birds-o:1;
-  --land:brightness(2.2) sepia(0) saturate(1.15) hue-rotate(0deg);
+  --stars-o:0; --ff-o:0; --birds-o:1;
+  --deco:brightness(1.04) saturate(1.08) hue-rotate(0deg);
   --tint:rgba(0,0,0,0);
-  --card:rgba(8, 60, 38, 0.6);
+  --panel:#1d3a28; --panel-hi:#326a45;
 }
 body[data-period="sore"]{
-  --sun-x:76vw; --sun-y:34vh; --sun-o:1; --sun-glow:rgba(251,146,60,.65);
-  --sun-filter:hue-rotate(-28deg) saturate(1.5);
-  --moon-o:0; --moon-x:85vw; --moon-y:-20vh;
-  --rays-o:1; --stars-o:0; --ff-o:.35; --birds-o:1;
-  --land:brightness(1.35) sepia(.4) saturate(1.3) hue-rotate(-12deg);
-  --tint:rgba(251,113,60,.1);
-  --card:rgba(48, 38, 22, 0.55);
-  --card-border:rgba(253, 186, 116, 0.22);
+  --stars-o:0; --ff-o:.4; --birds-o:1;
+  --deco:brightness(.6) saturate(.95) hue-rotate(-28deg);
+  --tint:rgba(251,113,60,.07);
+  --panel:#3a2a2a; --panel-hi:#6a4a3e;
 }
 body[data-period="larut"]{
-  --sun-o:0;
-  --moon-x:18vw; --moon-y:6vh; --moon-o:.85;
-  --rays-o:.1; --stars-o:1; --ff-o:.8; --birds-o:0;
-  --land:brightness(.6) sepia(0) saturate(.8) hue-rotate(0deg);
-  --tint:rgba(2,6,30,.3);
-  --card:rgba(4, 22, 16, 0.66);
+  --stars-o:1; --ff-o:.8; --birds-o:0;
+  --deco:brightness(.26) saturate(.55) hue-rotate(30deg);
+  --tint:rgba(2,6,30,.22);
+  --panel:#111c26; --panel-hi:#22384a;
 }
 
 /* =========================================================
    HUTAN
    ========================================================= */
-.forest{
-  position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none;
-  --ground-h:clamp(46px, 9vh, 90px);
-}
+.forest{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none}
 
-/* langit: 5 lapisan yang saling memudar */
-.sky{position:absolute;inset:0;opacity:0;transition:opacity var(--mood) ease}
-.sky-pagi {background:linear-gradient(180deg,#78c3ea 0%,#bfe8d4 45%,#fde5ae 70%,#5f9f6e 100%)}
-.sky-siang{background:linear-gradient(180deg,#3aa4e4 0%,#8dd4ef 45%,#d6f4e1 70%,#4f9361 100%)}
-.sky-sore {background:linear-gradient(180deg,#4f437f 0%,#d9745a 40%,#f6ae63 66%,#6e5f33 100%)}
-.sky-malam{background:linear-gradient(180deg,#0a1f38 0%,#0d3a36 45%,#245e44 72%,#0b3a24 100%)}
-.sky-larut{background:linear-gradient(180deg,#020617 0%,#03111b 50%,#082619 76%,#03140b 100%)}
+.sky{
+  position:absolute;inset:0;opacity:0;
+  background-size:cover;background-position:center bottom;background-repeat:no-repeat;
+  image-rendering:pixelated;image-rendering:crisp-edges;
+  transition:opacity var(--mood) steps(10);
+}
+.sky-pagi {background-image:url("assets/pixel/latar/latar_pagi.png")}
+.sky-siang{background-image:url("assets/pixel/latar/latar_siang.png")}
+.sky-sore {background-image:url("assets/pixel/latar/latar_sore.png")}
+.sky-malam{background-image:url("assets/pixel/latar/latar_malam.png")}
+.sky-larut{background-image:url("assets/pixel/latar/latar_larut.png")}
+@media (min-aspect-ratio:4/5){
+  .sky-pagi {background-image:url("assets/pixel/latar/latar_pagi_lebar.png")}
+  .sky-siang{background-image:url("assets/pixel/latar/latar_siang_lebar.png")}
+  .sky-sore {background-image:url("assets/pixel/latar/latar_sore_lebar.png")}
+  .sky-malam{background-image:url("assets/pixel/latar/latar_malam_lebar.png")}
+  .sky-larut{background-image:url("assets/pixel/latar/latar_larut_lebar.png")}
+}
 body[data-period="pagi"]  .sky-pagi,
 body[data-period="siang"] .sky-siang,
 body[data-period="sore"]  .sky-sore,
@@ -113,131 +116,60 @@ body[data-period="malam"] .sky-malam,
 body[data-period="larut"] .sky-larut,
 body:not([data-period]) .sky-malam{opacity:1}
 
-/* bintang */
-.stars{position:absolute;inset:0 0 40% 0;opacity:var(--stars-o);transition:opacity var(--mood) ease}
-.star{
-  position:absolute;width:2px;height:2px;border-radius:50%;background:#f8fafc;
-  animation:twinkle var(--tw) ease-in-out var(--delay) infinite;
-}
+/* bintang berkelip (kotak 1 piksel) */
+.stars{position:absolute;inset:0 0 45% 0;opacity:var(--stars-o);transition:opacity var(--mood) ease}
+.star{position:absolute;width:3px;height:3px;background:#fff;animation:twinkle var(--tw) steps(2) var(--delay) infinite}
 @keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
 
-/* matahari & bulan */
-.sun,.moon{
-  position:absolute;border-radius:50%;aspect-ratio:1;
-  transition:left 3s ease, top 3s ease, opacity var(--mood) ease, box-shadow 3s ease, filter 3s ease;
-}
-.sun{
-  width:clamp(60px, 10vw, 100px);
-  left:var(--sun-x);top:var(--sun-y);opacity:var(--sun-o);
-  background:radial-gradient(circle at 40% 40%, #fffbea, #fde68a 55%, #fbbf24);
-  box-shadow:0 0 60px 25px var(--sun-glow), 0 0 160px 70px var(--sun-glow);
-  filter:var(--sun-filter);
-}
-.moon{
-  width:clamp(56px, 10vw, 100px);
-  left:var(--moon-x);top:var(--moon-y);opacity:var(--moon-o);
-  background:radial-gradient(circle at 38% 38%, #fefce8, #d9f99d 60%, #a3e635);
-  box-shadow:0 0 50px 18px rgba(217,249,157,.35), 0 0 140px 60px rgba(163,230,53,.15);
-}
+/* dua frame bergantian (burung, rusa, rubah) */
+.flip2{aspect-ratio:var(--ar)}
+.flip2 img{position:absolute;inset:0;width:100%;height:100%}
+.flip2 img:first-child{animation:frame2a var(--fs, .5s) steps(1) infinite}
+.flip2 img:last-child{animation:frame2b var(--fs, .5s) steps(1) infinite}
+@keyframes frame2a{0%{opacity:1}50%{opacity:0}}
+@keyframes frame2b{0%{opacity:0}50%{opacity:1}}
 
-.rays{
-  position:absolute;inset:-20% -10% auto;height:120%;
-  opacity:var(--rays-o);
-  background:repeating-linear-gradient(105deg, transparent 0 60px, rgba(255,250,220,.07) 60px 110px, transparent 110px 200px);
-  mask-image:linear-gradient(180deg, #000 0%, transparent 75%);
-  -webkit-mask-image:linear-gradient(180deg, #000 0%, transparent 75%);
-  animation:rays 14s ease-in-out infinite alternate;
-  transition:opacity var(--mood) ease;
-}
-@keyframes rays{from{transform:translateX(-40px)}to{transform:translateX(40px)}}
-
-/* barisan pohon cemara */
-.trees,.tree-near,.ground{filter:var(--land);transition:filter var(--mood) ease}
-.trees{position:absolute;left:-5%;right:-5%;background-repeat:repeat-x;background-position:bottom left}
-.trees.far{
-  bottom:calc(var(--ground-h) + 6px);height:34vh;opacity:.75;
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 200'%3E%3Cpath fill='%2318633f' d='M50 0L78 60H64L88 110H71L98 170H55V200H45V170H2L29 110H12L36 60H22Z'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 200'%3E%3Cpath fill='%23145a39' d='M50 0L78 60H64L88 110H71L98 170H55V200H45V170H2L29 110H12L36 60H22Z'/%3E%3C/svg%3E");
-  background-size:70px 150px, 95px 210px;
-  background-position:0 100%, 35px 100%;
-  animation:drift 120s linear infinite;
-}
-.trees.mid{
-  bottom:var(--ground-h);height:30vh;
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 200'%3E%3Cpath fill='%230c3f27' d='M50 0L78 60H64L88 110H71L98 170H55V200H45V170H2L29 110H12L36 60H22Z'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 200'%3E%3Cpath fill='%230a3522' d='M50 0L78 60H64L88 110H71L98 170H55V200H45V170H2L29 110H12L36 60H22Z'/%3E%3C/svg%3E");
-  background-size:110px 200px, 150px 260px;
-  background-position:20px 100%, 90px 100%;
-  animation:drift 80s linear infinite reverse;
-}
-@keyframes drift{to{background-position-x:600px, 635px}}
-
-.ground{
-  position:absolute;left:0;right:0;bottom:0;height:var(--ground-h);
-  background:
-    radial-gradient(60% 120% at 20% 0%, #0d3b23 0%, transparent 70%),
-    linear-gradient(180deg, #082c19, #031309);
-  border-top:2px solid #0e4429;
-}
-
+.deco,.tree-near,.walker{filter:var(--deco);transition:filter var(--mood) steps(8)}
 .tree-near{
-  position:absolute;bottom:calc(var(--ground-h) - 10px);
-  aspect-ratio:1/2;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 200'%3E%3Cpath fill='%23041a0e' d='M50 0L78 60H64L88 110H71L98 170H55V200H45V170H2L29 110H12L36 60H22Z'/%3E%3C/svg%3E") no-repeat bottom/contain;
+  position:absolute;bottom:-1vh;height:clamp(200px, 50vh, 500px);width:auto;
   transform-origin:50% 100%;
-  animation:treeSway 6s ease-in-out infinite;
+  animation:treeSway 3s steps(2) infinite;
   z-index:3;
 }
-.t1{left:-4vw;width:clamp(110px, 20vw, 220px);animation-delay:-1s}
-.t2{left:11vw;width:clamp(70px, 11vw, 120px);animation-delay:-3s;animation-duration:7s}
-.t3{right:-3vw;width:clamp(120px, 21vw, 230px);animation-delay:-2s;animation-duration:5.5s}
-.t4{right:13vw;width:clamp(65px, 10vw, 110px);animation-delay:-4s}
-@keyframes treeSway{0%,100%{transform:rotate(-1.6deg)}50%{transform:rotate(1.6deg)}}
+.t1{left:clamp(-90px, -6vw, -34px)}
+.t2{right:clamp(-90px, -6vw, -34px);animation-delay:-1.5s}
+@keyframes treeSway{0%,100%{transform:rotate(-1deg)}50%{transform:rotate(1deg)}}
+
+.deco{position:absolute;z-index:3;height:auto}
+.d-jamur{left:9vw;bottom:2vh;width:48px}
+.d-batu{left:17vw;bottom:1vh;width:60px}
+.d-semak{right:9vw;bottom:1.5vh;width:84px}
+.d-tunggul{right:22vw;bottom:2vh;width:54px}
+.d-bunga{left:28vw;bottom:2.5vh;width:27px}
 
 .tint{position:absolute;inset:0;background:var(--tint);transition:background-color var(--mood) ease;z-index:5}
 
 /* ---------- hewan yang lewat ---------- */
-.walker{position:absolute;left:0;bottom:calc(var(--ground-h) - 6px);z-index:2}
-.walker svg{display:block;width:100%;height:auto;overflow:visible;fill:#03140a}
-.walker .antler{stroke:#03140a;stroke-width:2.6;stroke-linecap:round}
-.walker .eye{fill:#bef264}
-
-.deer{width:clamp(80px, 13vw, 130px);animation:walkRight 32s linear infinite}
-.deer svg{animation:bob .6s ease-in-out infinite}
-.fox{width:clamp(64px, 10vw, 105px);animation:walkRight 44s linear -22s infinite}
-.fox svg{animation:bob .45s ease-in-out infinite}
-.fox .tail{transform-origin:28px 40px;animation:tail 1s ease-in-out infinite}
-.rabbit{width:clamp(36px, 5.5vw, 54px);bottom:calc(var(--ground-h) - 4px);animation:walkLeft 20s linear -6s infinite}
-.rabbit svg{animation:hop .7s cubic-bezier(.3,0,.6,1) infinite}
-
-.leg{transform-box:fill-box;transform-origin:50% 0}
-.deer .leg{animation:legSwing .6s ease-in-out infinite}
-.fox .leg{animation:legSwing .45s ease-in-out infinite}
-.leg-b2,.leg-f1{animation-direction:reverse !important}
-
+.walker{position:absolute;left:0;bottom:3vh;z-index:2}
+.deer{width:84px;--ar:28/24;--fs:.4s;animation:walkRight 30s steps(240) infinite}
+.fox{width:72px;--ar:24/14;--fs:.3s;bottom:2.5vh;animation:walkRight 40s steps(320) -20s infinite}
+.bunny{width:64px;aspect-ratio:40/46;bottom:2vh;animation:walkLeft 26s steps(260) -8s infinite}
+.bunny img{position:absolute;inset:0;width:100%;height:100%;opacity:0;animation:frame4 .56s steps(1) infinite}
+.bunny img:nth-child(2){animation-delay:-.42s}
+.bunny img:nth-child(3){animation-delay:-.28s}
+.bunny img:nth-child(4){animation-delay:-.14s}
+@keyframes frame4{0%{opacity:1}25%,100%{opacity:0}}
 @keyframes walkRight{from{transform:translateX(-20vw)}to{transform:translateX(120vw)}}
 @keyframes walkLeft{from{transform:translateX(120vw)}to{transform:translateX(-20vw)}}
-@keyframes legSwing{0%,100%{transform:rotate(18deg)}50%{transform:rotate(-18deg)}}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
-@keyframes hop{0%,100%{transform:translateY(0) scaleY(1)}10%{transform:translateY(0) scaleY(.85)}45%{transform:translateY(-55%) scaleY(1.05)}80%{transform:translateY(0)}}
-@keyframes tail{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(8deg)}}
+body[data-period="larut"] .deer{animation-duration:46s}
+body[data-period="larut"] .fox{animation-duration:58s}
 
-/* larut malam: hewan berjalan lebih pelan */
-body[data-period="larut"] .deer{animation-duration:48s}
-body[data-period="larut"] .fox{animation-duration:60s}
-
-/* burung (hanya pagi–sore) */
+/* burung (pagi–sore) */
 .birds{position:absolute;inset:0;opacity:var(--birds-o);transition:opacity var(--mood) ease}
-.bird{position:absolute;left:0;width:clamp(22px, 3vw, 34px);z-index:1}
-.bird svg{display:block;width:100%;fill:#0b2a1a;overflow:visible}
-.bird .wing-l,.bird .wing-r{transform-origin:20px 12px;animation:flap .35s ease-in-out infinite alternate}
-.bird .wing-r{animation-name:flapR}
-.bird1{top:14vh;animation:fly 18s linear infinite}
-.bird2{top:19vh;animation:fly 18s linear -.6s infinite}
-.bird2 svg{transform:scale(.8)}
-.bird3{top:11vh;animation:fly 24s linear -9s infinite}
+.bird{position:absolute;left:0;width:27px;--ar:9/6;--fs:.36s;z-index:1}
+.bird1{top:14vh;animation:fly 18s steps(180) infinite}
+.bird2{top:19vh;width:21px;animation:fly 18s steps(180) -.6s infinite}
+.bird3{top:10vh;animation:fly 24s steps(240) -9s infinite}
 @keyframes fly{
   0%{transform:translate(-10vw, 0)}
   25%{transform:translate(25vw, -3vh)}
@@ -245,495 +177,283 @@ body[data-period="larut"] .fox{animation-duration:60s}
   75%{transform:translate(85vw, -2vh)}
   100%{transform:translate(115vw, 0)}
 }
-@keyframes flap{from{transform:rotate(0)}to{transform:rotate(28deg)}}
-@keyframes flapR{from{transform:rotate(0)}to{transform:rotate(-28deg)}}
 
-/* kunang-kunang (sore–larut malam) */
+/* kunang-kunang (kotak bercahaya) */
 .fireflies{position:absolute;inset:0;opacity:var(--ff-o);transition:opacity var(--mood) ease;z-index:4}
 .firefly{
-  position:absolute;width:5px;height:5px;border-radius:50%;
-  background:#ecfccb;
-  box-shadow:0 0 8px 3px rgba(217,249,157,.8), 0 0 18px 6px rgba(163,230,53,.4);
-  animation:fireflyMove var(--dur) ease-in-out var(--delay) infinite alternate,
-            blink var(--blink) ease-in-out var(--delay) infinite;
+  position:absolute;width:4px;height:4px;background:#f2ffb0;
+  box-shadow:0 0 0 2px rgba(214,255,120,.35), 0 0 0 5px rgba(214,255,120,.12);
+  animation:fireflyMove var(--dur) steps(16) var(--delay) infinite alternate,
+            blink var(--blink) steps(3) var(--delay) infinite;
 }
 @keyframes fireflyMove{to{transform:translate(var(--dx), var(--dy))}}
-@keyframes blink{0%,100%{opacity:.1}50%{opacity:1}}
+@keyframes blink{0%,100%{opacity:.15}50%{opacity:1}}
 
-/* hemat CPU: hentikan animasi elemen yang sedang tidak terlihat */
-body[data-period="pagi"] .firefly,
-body[data-period="siang"] .firefly,
-body[data-period="pagi"] .star,
-body[data-period="siang"] .star,
-body[data-period="sore"] .star,
-body[data-period="malam"] .bird, body[data-period="malam"] .bird path,
-body[data-period="larut"] .bird, body[data-period="larut"] .bird path{animation-play-state:paused}
+body[data-period="pagi"] .firefly, body[data-period="siang"] .firefly,
+body[data-period="pagi"] .star, body[data-period="siang"] .star, body[data-period="sore"] .star,
+body[data-period="malam"] .bird, body[data-period="malam"] .bird img,
+body[data-period="larut"] .bird, body[data-period="larut"] .bird img{animation-play-state:paused}
 
 /* daun berguguran */
 .leaves{position:absolute;inset:0;z-index:4}
 .leaf-fall{
-  position:absolute;top:-30px;
-  width:var(--size);height:calc(var(--size) * .6);
-  background:var(--color);
-  border-radius:0 100% 0 100%;
-  opacity:.85;
-  animation:fall var(--dur) linear var(--delay) infinite;
+  position:absolute;top:-40px;width:var(--size);height:auto;filter:var(--deco);
+  animation:fall var(--dur) steps(90) var(--delay) infinite;
 }
 @keyframes fall{
   0%{transform:translate(0, 0) rotate(0deg)}
-  25%{transform:translate(30px, 27vh) rotate(120deg)}
-  50%{transform:translate(-20px, 55vh) rotate(220deg)}
-  75%{transform:translate(25px, 82vh) rotate(320deg)}
-  100%{transform:translate(-10px, 110vh) rotate(420deg)}
+  25%{transform:translate(30px, 27vh) rotate(90deg)}
+  50%{transform:translate(-20px, 55vh) rotate(180deg)}
+  75%{transform:translate(25px, 82vh) rotate(270deg)}
+  100%{transform:translate(-10px, 115vh) rotate(360deg)}
 }
 
-/* konfeti perayaan */
-.confetti{position:fixed;inset:0;pointer-events:none;z-index:10;overflow:hidden}
-.confetti-piece{
-  position:absolute;width:var(--s);height:calc(var(--s) * .6);
-  background:var(--c);border-radius:0 100% 0 100%;
-  animation:burst 1.6s cubic-bezier(.2,.7,.4,1) forwards;
-}
-.confetti-piece.star-piece{border-radius:2px;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+/* ---------- lapisan efek ---------- */
+.fx{position:fixed;inset:0;pointer-events:none;z-index:10;overflow:hidden}
+.confetti-piece{position:absolute;width:var(--s);height:auto;animation:burst 1.6s steps(16) forwards}
 @keyframes burst{
-  0%{transform:translate(-50%,-50%) scale(.4) rotate(0);opacity:1}
-  40%{transform:translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1) rotate(calc(var(--r) * .5));opacity:1}
-  100%{transform:translate(calc(-50% + var(--tx) * 1.3), calc(-50% + var(--ty) + 240px)) scale(.9) rotate(var(--r));opacity:0}
+  0%{transform:translate(-50%,-50%) scale(.4);opacity:1}
+  40%{transform:translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1);opacity:1}
+  100%{transform:translate(calc(-50% + var(--tx) * 1.3), calc(-50% + var(--ty) + 260px)) scale(1);opacity:0}
+}
+.fx-img{position:absolute;transform:translate(-50%,-50%);height:auto}
+.fx-pop{animation:fxPop .9s steps(9) forwards}
+.fx-burst{animation:fxBurst 1s steps(8) forwards}
+.fx-spin{animation:fxSpin .8s steps(8) forwards}
+@keyframes fxPop{
+  0%{transform:translate(-50%,-50%) scale(.3);opacity:0}
+  30%{transform:translate(-50%,-50%) scale(1.15);opacity:1}
+  70%{transform:translate(-50%,-50%) scale(1);opacity:1}
+  100%{transform:translate(-50%,-80%) scale(1);opacity:0}
+}
+@keyframes fxBurst{
+  0%{transform:translate(-50%,-50%) scale(.3);opacity:0}
+  25%{opacity:1}
+  100%{transform:translate(-50%,-50%) scale(1.6);opacity:0}
+}
+@keyframes fxSpin{
+  0%{transform:translate(-50%,-50%) scale(.4) rotate(0);opacity:0}
+  35%{opacity:1}
+  100%{transform:translate(-50%,-50%) scale(1.4) rotate(180deg);opacity:0}
 }
 
 /* =========================================================
-   KARTU KALKULATOR
+   KARTU KALKULATOR (panel pixel)
    ========================================================= */
 .calculator{
   position:relative;
   z-index:1;
-  width:min(100%, 380px);
-  margin:auto; /* di tengah layar, tapi tidak terpotong di layar pendek */
-  padding:clamp(16px, 5vw, 24px);
-  border-radius:28px;
-  background:var(--card);
-  border:1px solid var(--card-border);
-  backdrop-filter:blur(22px) saturate(140%);
-  -webkit-backdrop-filter:blur(22px) saturate(140%);
+  width:min(100%, 372px);
+  margin:auto;
+  padding:clamp(14px, 4.5vw, 20px);
+  background:var(--panel);
+  border:4px solid var(--ink);
   box-shadow:
-    0 30px 60px -20px rgba(0,0,0,.6),
-    inset 0 1px 0 rgba(255,255,255,.08);
-  animation:rise .7s cubic-bezier(.2,.8,.2,1) both;
-  transition:background-color var(--mood) ease, border-color var(--mood) ease;
+    inset 4px 4px 0 var(--panel-hi),
+    inset -4px -4px 0 var(--panel-lo),
+    8px 8px 0 rgba(0,0,0,.35);
+  animation:rise .5s steps(5) both;
+  transition:background-color var(--mood) steps(8);
 }
-@keyframes rise{
-  from{opacity:0;transform:translateY(30px) scale(.96)}
-  to{opacity:1;transform:none}
-}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 
-.top{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  margin-bottom:10px;
-}
-.leaf{
-  display:grid;place-items:center;
-  width:30px;height:30px;border-radius:10px;
-  color:#052e1c;
-  background:linear-gradient(135deg, var(--accent-1), #a3e635);
-  animation:iconSway 4s ease-in-out infinite;
-}
-@keyframes iconSway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
-
+.top{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px}
+.logo{width:24px;height:39px;animation:logoBob 1.2s steps(2) infinite}
+@keyframes logoBob{50%{transform:translateY(-2px)}}
 .top h1{
-  margin:0;
-  font-size:clamp(16px, 4.6vw, 19px);
-  font-weight:600;
-  letter-spacing:.3px;
-  background:linear-gradient(90deg, #d1fae5, var(--accent-1), #a3e635, #d1fae5);
-  background-size:300% 100%;
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  animation:shine 6s linear infinite;
+  margin:0;font-family:var(--ui);font-weight:700;
+  font-size:clamp(19px, 5.4vw, 23px);letter-spacing:.5px;color:#ffe680;
+  text-shadow:2px 2px 0 var(--ink), -1px -1px 0 var(--ink), 1px -1px 0 var(--ink), -1px 1px 0 var(--ink);
 }
-@keyframes shine{to{background-position:300% 0}}
 
-/* ---------- toolbar: waktu, streak, suara ---------- */
-.toolbar{
-  display:flex;align-items:center;justify-content:space-between;gap:8px;
-  margin-bottom:12px;font-size:13px;color:var(--fn-text);
-}
+/* ---------- toolbar ---------- */
+.toolbar{display:flex;align-items:center;gap:7px;margin-bottom:12px;font-size:14px}
 .period-badge,.streak{
   display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
-  padding:5px 10px;border-radius:999px;
-  background:rgba(0,0,0,.22);border:1px solid rgba(134,239,172,.12);
+  padding:3px 7px;background:var(--panel-lo);border:2px solid var(--panel-hi);color:var(--label);
 }
-.period-badge .dot{opacity:.5}
-.period-badge time{font-variant-numeric:tabular-nums}
-.streak b{font-weight:600;min-width:1ch;text-align:center}
-.streak.bump{animation:bump .5s cubic-bezier(.3,1.8,.5,1)}
-@keyframes bump{40%{transform:scale(1.25)}}
+.period-badge img{width:22px;height:22px}
+.period-badge time{font-variant-numeric:tabular-nums;opacity:.85}
+.streak img{width:18px;height:18px}
+.streak b{font-weight:700;min-width:1ch;text-align:center;color:#ffe680}
+.streak.bump{animation:bump .4s steps(4)}
+@keyframes bump{50%{transform:scale(1.3)}}
 
 .sound-ctrl{display:flex;align-items:center;gap:6px;margin-left:auto}
 .icon-btn{
-  width:32px;height:32px;padding:0;flex:none;
-  display:grid;place-items:center;
-  border-radius:10px;border:1px solid rgba(134,239,172,.15);
-  background:rgba(0,0,0,.22);color:var(--fn-text);
-  box-shadow:none;animation:none;font-size:inherit;
+  width:32px;height:32px;padding:0;border:0;background:none;cursor:pointer;flex:none;
 }
-.icon-btn svg{width:18px;height:18px;fill:currentColor;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.icon-btn img{width:32px;height:32px;display:block}
 .icon-btn .ic-off{display:none}
 .icon-btn[aria-pressed="true"] .ic-on{display:none}
 .icon-btn[aria-pressed="true"] .ic-off{display:block}
-.icon-btn[aria-pressed="true"]{color:#fca5a5}
+.icon-btn:active{transform:translateY(2px)}
 #volume{
-  width:clamp(52px, 17vw, 84px);accent-color:var(--accent-1);margin:0;cursor:pointer;
+  -webkit-appearance:none;appearance:none;
+  width:clamp(54px, 16vw, 78px);height:10px;margin:0;cursor:pointer;
+  background:var(--panel-lo);border:2px solid var(--ink);
 }
+#volume::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:18px;background:#ffe680;border:2px solid var(--ink);border-radius:0}
+#volume::-moz-range-thumb{width:10px;height:16px;background:#ffe680;border:2px solid var(--ink);border-radius:0}
 #volume:disabled{opacity:.4}
 
-/* ---------- layar ---------- */
+/* ---------- layar LCD ---------- */
 .display{
   position:relative;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  gap:4px;
-  padding:16px 18px;
-  margin-bottom:18px;
-  min-height:110px;
-  justify-content:flex-end;
-  border-radius:20px;
-  background:linear-gradient(160deg, rgba(0,0,0,.35), rgba(0,0,0,.18));
-  border:1px solid rgba(134,239,172,.12);
-  box-shadow:inset 0 2px 12px rgba(0,0,0,.35);
+  display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end;gap:6px;
+  padding:12px 14px;margin-bottom:16px;min-height:104px;
+  background:
+    repeating-linear-gradient(0deg, rgba(15,56,15,.08) 0 2px, transparent 2px 4px),
+    var(--lcd);
+  border:4px solid var(--ink);
+  box-shadow:inset 4px 4px 0 var(--lcd-mid), inset -2px -2px 0 #c4dc5a;
   overflow:hidden;
 }
-.display::after{
-  content:"";
-  position:absolute;left:0;right:0;bottom:0;height:2px;
-  background:linear-gradient(90deg, transparent, var(--accent-1), transparent);
-  opacity:.7;
-  animation:scan 3.5s ease-in-out infinite;
+.display::after{ /* kursor berkedip */
+  content:"";position:absolute;left:12px;bottom:12px;width:10px;height:4px;background:var(--lcd-dark);
+  animation:cursor 1s steps(1) infinite;
 }
-.display.computing::after{animation-duration:.5s;opacity:1}
-@keyframes scan{0%,100%{transform:translateX(-60%)}50%{transform:translateX(60%)}}
+@keyframes cursor{50%{opacity:0}}
+.display.computing::after{animation-duration:.2s}
 
 #expression{
-  width:100%;
-  border:0;
-  outline:0;
-  background:transparent;
-  text-align:right;
-  font:inherit;
-  font-size:clamp(17px, 5vw, 20px);
-  color:var(--muted);
-  caret-color:transparent;
-  pointer-events:none;
+  width:100%;border:0;outline:0;background:transparent;text-align:right;
+  font-family:var(--ui);font-size:18px;font-weight:600;color:var(--lcd-mid);
+  caret-color:transparent;pointer-events:none;
 }
 #result{
-  max-width:100%;
-  text-align:right;
-  overflow-wrap:anywhere;
-  font-size:clamp(34px, 11vw, 46px);
-  font-weight:700;
-  line-height:1.1;
-  color:#f0fdf4;
-  text-shadow:0 0 24px rgba(52,211,153,.35);
-  transition:opacity .25s ease, filter .25s ease;
+  max-width:100%;text-align:right;overflow-wrap:anywhere;
+  font-family:var(--px);font-size:clamp(22px, 7.4vw, 28px);line-height:1.2;color:var(--lcd-dark);
 }
-#result.long{font-size:clamp(24px, 7vw, 30px)}
-#result.computing{opacity:.3;filter:blur(3px)}
-#result.reveal{animation:reveal .55s cubic-bezier(.2,1.3,.4,1)}
-#result.error{color:var(--danger);text-shadow:0 0 20px rgba(248,113,113,.4)}
-.display.shake{animation:shake .4s}
-
-@keyframes reveal{
-  0%{transform:translateY(14px) scale(.85);opacity:0;filter:blur(6px)}
-  100%{transform:none;opacity:1;filter:blur(0)}
-}
-@keyframes shake{
-  0%,100%{transform:translateX(0)}
-  20%,60%{transform:translateX(-7px)}
-  40%,80%{transform:translateX(7px)}
-}
+#result.long{font-size:clamp(14px, 4.4vw, 17px)}
+#result.computing{opacity:.25}
+#result.reveal{animation:reveal .4s steps(4)}
+#result.error{color:#8b1e1e}
+.display.shake{animation:shake .32s steps(4)}
+@keyframes reveal{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 
 /* ---------- tombol ---------- */
-.buttons{
-  display:grid;
-  grid-template-columns:repeat(4, 1fr);
-  gap:var(--gap);
-}
+.buttons{display:grid;grid-template-columns:repeat(4, 1fr);gap:var(--gap)}
 .buttons button{
-  position:relative;
-  overflow:hidden;
-  height:clamp(56px, 16vw, 66px);
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:var(--radius);
-  font:inherit;
-  font-size:clamp(20px, 6vw, 23px);
-  font-weight:400;
-  color:var(--key-text);
-  background:var(--key);
-  cursor:pointer;
-  touch-action:manipulation;
-  user-select:none;
-  -webkit-user-select:none;
-  box-shadow:0 4px 0 rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.06);
-  transition:transform .12s ease, background-color .2s ease, box-shadow .12s ease;
-  animation:keyIn .5s cubic-bezier(.2,.8,.2,1) both;
+  position:relative;overflow:hidden;
+  height:clamp(52px, 15vw, 60px);
+  border:3px solid var(--ink);border-radius:0;
+  font-family:var(--px);font-size:clamp(14px, 4.4vw, 17px);
+  color:var(--key-text);background:var(--key);
+  cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none;
+  box-shadow:inset 3px 3px 0 rgba(255,255,255,.55), inset -3px -3px 0 rgba(0,0,0,.18), 0 4px 0 var(--ink);
+  transition:transform .06s steps(1), box-shadow .06s steps(1);
+  animation:keyIn .4s steps(4) both;
 }
-.buttons button:nth-child(4n+1){animation-delay:.10s}
-.buttons button:nth-child(4n+2){animation-delay:.16s}
-.buttons button:nth-child(4n+3){animation-delay:.22s}
-.buttons button:nth-child(4n+4){animation-delay:.28s}
-@keyframes keyIn{
-  from{opacity:0;transform:translateY(14px) scale(.9)}
-  to{opacity:1;transform:none}
-}
-button{touch-action:manipulation;cursor:pointer;font:inherit}
+.buttons button:nth-child(4n+1){animation-delay:.06s}
+.buttons button:nth-child(4n+2){animation-delay:.12s}
+.buttons button:nth-child(4n+3){animation-delay:.18s}
+.buttons button:nth-child(4n+4){animation-delay:.24s}
+@keyframes keyIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
 @media (hover:hover){
-  .buttons button:hover{background:var(--key-hover);transform:translateY(-2px)}
-  .buttons button.op:hover{background:rgba(52,211,153,.32)}
-  .buttons button.fn:hover{background:rgba(134,239,172,.22)}
-  .icon-btn:hover{background:rgba(134,239,172,.16)}
+  .buttons button:hover{filter:brightness(1.07)}
+  .icon-btn:hover{transform:translateY(-1px)}
 }
 .buttons button:active,
 .buttons button.pressed{
-  transform:translateY(3px) scale(.97);
-  box-shadow:0 1px 0 rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.04);
+  transform:translateY(4px);
+  box-shadow:inset 3px 3px 0 rgba(0,0,0,.18), inset -3px -3px 0 rgba(255,255,255,.35), 0 0 0 var(--ink);
 }
-button:focus-visible{outline:2px solid var(--accent-1);outline-offset:2px}
+button:focus-visible{outline:3px dashed #ffe680;outline-offset:3px}
 
-.buttons button.fn{background:var(--fn);color:var(--fn-text);font-size:clamp(18px, 5.4vw, 21px)}
-.buttons button.clear{color:#fef08a}
-.buttons button.op{background:var(--op);color:var(--op-text);font-weight:600}
-.buttons button.op.active{background:var(--accent-1);color:#052e1c}
-
-.buttons button.equals{
-  color:#04210f;
-  font-weight:700;
-  background:linear-gradient(135deg, var(--accent-1), var(--accent-3));
-  background-size:200% 200%;
-  border:0;
-  box-shadow:0 4px 0 #04603f, 0 10px 24px -6px rgba(16,185,129,.7);
-  animation:keyIn .5s cubic-bezier(.2,.8,.2,1) .28s both, glow 3s ease-in-out 1s infinite;
-}
-.buttons button.equals:active,
-.buttons button.equals.pressed{box-shadow:0 1px 0 #04603f, 0 4px 12px -4px rgba(16,185,129,.7)}
-@keyframes glow{
-  0%,100%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-}
+.buttons button.fn{background:var(--fn);color:#1f3b1a}
+.buttons button.del{font-size:clamp(11px, 3.4vw, 13px)}
+.buttons button.clear{background:#ff8a8a;color:#5a0f20}
+.buttons button.op{background:var(--op);color:#3a1f0a}
+.buttons button.op.active{background:#ffe680;outline:3px solid #fff;outline-offset:-6px}
+.buttons button.equals{background:var(--eq);color:#0b2a1f;animation:keyIn .4s steps(4) .24s both, eqGlow 1.6s steps(2) 1s infinite}
+@keyframes eqGlow{50%{background:#6ff0c8}}
 .buttons button.wide{grid-column:span 2}
 
-.ripple{
-  position:absolute;
-  border-radius:50%;
-  transform:scale(0);
-  background:rgba(255,255,255,.35);
-  pointer-events:none;
-  animation:ripple .55s ease-out forwards;
-}
-@keyframes ripple{to{transform:scale(2.6);opacity:0}}
+.ripple{position:absolute;transform:scale(0);background:rgba(255,255,255,.45);pointer-events:none;animation:ripple .3s steps(3) forwards}
+@keyframes ripple{to{transform:scale(2.2);opacity:0}}
 
-.help{
-  margin-top:16px;
-  font-size:12.5px;
-  color:var(--muted);
-  text-align:center;
-  line-height:1.5;
-}
+.help{margin-top:14px;font-size:13px;color:var(--label);opacity:.75;text-align:center;letter-spacing:.3px}
 
 /* =========================================================
-   MASKOT KELINCI
-   state: idle · watching · curious · thinking · happy ·
-          confused · celebrating · sleepy
+   MASKOT KELINCI (sprite per pose)
    ========================================================= */
-.mascot{
-  position:absolute;top:-84px;right:18px;width:96px;z-index:2;pointer-events:none;
-}
-.mascot svg{display:block;width:100%;overflow:visible}
-.mascot .fur{fill:#efe2cf}
-.mascot .fur-dark{fill:#d6bf9f}
-.mascot .inner-ear{fill:#f6a8bb}
-.mascot .belly{fill:#fffaf0}
-.mascot .shadow{fill:rgba(0,0,0,.25)}
-.mascot .blush{fill:#fb7185;opacity:.35;transition:opacity .3s}
-.mascot .ink{fill:#1f2a24}
-.mascot .shine{fill:#fff}
-.mascot .ink-stroke{fill:none;stroke:#1f2a24;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-.mascot .nose{fill:#f472b6}
-.mascot .m-open{fill:#9f1239}
+.mascot{position:absolute;top:-134px;right:6px;width:120px;z-index:2;pointer-events:none}
+.m-body{position:relative;width:100%;aspect-ratio:40/46;transform-origin:50% 100%}
+.m-body img{position:absolute;inset:0;width:100%;height:100%;opacity:0}
+.m-body img.on{opacity:1}
+.m-body img.blink{animation:blinkFrame 4s steps(1) infinite}
+@keyframes blinkFrame{0%,92%{opacity:0}93%,96%{opacity:1}97%,100%{opacity:0}}
 
-/* bagian wajah alternatif disembunyikan secara default */
-.mascot .eyes-happy,.mascot .eyes-closed,.mascot .brows,
-.mascot .m-open,.mascot .m-o,.mascot .m-wavy{display:none}
+body[data-period="pagi"]  .mascot[data-state="idle"] .m-body{animation:idleHop 1.6s steps(1) infinite}
+body[data-period="siang"] .mascot[data-state="idle"] .m-body{animation:idleBounce 1.2s steps(1) infinite}
+body[data-period="sore"]  .mascot[data-state="idle"] .m-body{animation:idleBounce 2.4s steps(1) infinite}
+body[data-period="malam"] .mascot[data-state="idle"] .m-body{animation:idleBounce 3s steps(1) infinite}
 
-/* titik putar (koordinat viewBox) */
-.mascot .whole{transform-origin:60px 128px}
-.mascot .head{transform-origin:60px 92px;transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
-.mascot .ear-l{transform-origin:45px 46px;transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
-.mascot .ear-r{transform-origin:75px 46px;transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
-.mascot .paw-l{transform-origin:42px 93px;transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
-.mascot .paw-r{transform-origin:78px 93px;transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
-.mascot .eyes-open{transform-origin:60px 63px}
-.mascot .pupils{transition:transform .2s ease}
+.mascot[data-state="watching"] .m-body{transform:translateX(-3px)}
+.mascot[data-state="curious"] .m-body{animation:perk .4s steps(3)}
+.mascot[data-state="thinking"] .m-body{animation:think .8s steps(1) infinite}
+.mascot[data-state="happy"] .m-body{animation:jump .5s steps(5) 2}
+.mascot[data-state="confused"] .m-body{animation:headShake .4s steps(1) 3}
+.mascot[data-state="celebrating"] .m-body{animation:jump .45s steps(5) 4}
+.mascot[data-state="sleepy"] .m-body{animation:idleBounce 3.4s steps(1) infinite}
 
-/* --- idle: gerakan dasar mengikuti waktu --- */
-.mascot[data-state="idle"] .eyes-open,
-.mascot[data-state="watching"] .eyes-open{animation:blinkEye 4.5s infinite}
-body[data-period="pagi"]  .mascot[data-state="idle"] .whole{animation:idleHop 2.4s ease-in-out infinite}
-body[data-period="pagi"]  .mascot[data-state="idle"] .ear-l{animation:earWiggle 2.4s ease-in-out infinite}
-body[data-period="siang"] .mascot[data-state="idle"] .whole{animation:idleBounce 3s ease-in-out infinite}
-body[data-period="sore"]  .mascot[data-state="idle"] .whole{animation:idleSway 5s ease-in-out infinite}
-body[data-period="malam"] .mascot[data-state="idle"] .whole{animation:breathe 4.5s ease-in-out infinite}
-body[data-period="malam"] .mascot[data-state="idle"] .eyes-open{animation-duration:7s}
-body[data-period="malam"] .mascot[data-state="idle"] .ear-l{transform:rotate(-10deg)}
-body[data-period="sore"]  .mascot[data-state="idle"] .blush{opacity:.55}
-
-/* --- watching: memperhatikan layar saat angka diketik --- */
-.mascot[data-state="watching"] .pupils{transform:translate(-1.8px, 1.8px)}
-.mascot[data-state="watching"] .head{transform:rotate(-4deg)}
-
-/* --- curious: memilih operasi --- */
-.mascot[data-state="curious"] .whole{animation:perk .45s ease-out}
-.mascot[data-state="curious"] .head{transform:rotate(9deg)}
-.mascot[data-state="curious"] .ear-l{transform:rotate(-10deg)}
-.mascot[data-state="curious"] .ear-r{transform:rotate(14deg)}
-.mascot[data-state="curious"] .eyes-open{transform:scale(1.18)}
-.mascot[data-state="curious"] .m-smile{display:none}
-.mascot[data-state="curious"] .m-o{display:block}
-
-/* --- thinking: menunggu hasil --- */
-.mascot[data-state="thinking"] .pupils{transform:translate(1.8px, -2.2px)}
-.mascot[data-state="thinking"] .brows{display:block}
-.mascot[data-state="thinking"] .m-smile{display:none}
-.mascot[data-state="thinking"] .m-o{display:block;transform:scale(.7);transform-origin:60px 81px}
-.mascot[data-state="thinking"] .paw-r{transform:translate(-12px,-20px) rotate(-35deg)}
-.mascot[data-state="thinking"] .head{animation:think .9s ease-in-out infinite}
-
-/* --- happy: hasil berhasil --- */
-.mascot[data-state="happy"] .eyes-open,
-.mascot[data-state="happy"] .m-smile{display:none}
-.mascot[data-state="happy"] .eyes-happy,
-.mascot[data-state="happy"] .m-open{display:block}
-.mascot[data-state="happy"] .blush{opacity:.8}
-.mascot[data-state="happy"] .paw-r{transform:rotate(-125deg)}
-.mascot[data-state="happy"] .whole{animation:jump .55s cubic-bezier(.3,0,.5,1) 2}
-.mascot[data-state="happy"] .ear-l{transform:rotate(-14deg)}
-.mascot[data-state="happy"] .ear-r{transform:rotate(14deg)}
-
-/* --- confused: error --- */
-.mascot[data-state="confused"] .brows{display:block}
-.mascot[data-state="confused"] .brows path:first-child{transform:translateY(-3px) rotate(-14deg);transform-origin:48px 53px}
-.mascot[data-state="confused"] .m-smile{display:none}
-.mascot[data-state="confused"] .m-wavy{display:block}
-.mascot[data-state="confused"] .head{transform:rotate(-11deg)}
-.mascot[data-state="confused"] .whole{animation:headShake .5s ease-in-out 2}
-.mascot[data-state="confused"] .ear-l{transform:rotate(-38deg)}
-.mascot[data-state="confused"] .ear-r{transform:rotate(6deg)}
-.mascot[data-state="confused"] .paw-l{transform:translate(4px,-16px) rotate(30deg)}
-
-/* --- celebrating: beberapa hitungan berturut-turut --- */
-.mascot[data-state="celebrating"] .eyes-open,
-.mascot[data-state="celebrating"] .m-smile{display:none}
-.mascot[data-state="celebrating"] .eyes-happy,
-.mascot[data-state="celebrating"] .m-open{display:block}
-.mascot[data-state="celebrating"] .blush{opacity:.9}
-.mascot[data-state="celebrating"] .paw-r{transform:rotate(-130deg)}
-.mascot[data-state="celebrating"] .paw-l{transform:rotate(130deg)}
-.mascot[data-state="celebrating"] .whole{animation:celebrate .7s cubic-bezier(.3,0,.5,1) 3}
-
-/* --- sleepy: larut malam --- */
-.mascot[data-state="sleepy"] .eyes-open,
-.mascot[data-state="sleepy"] .m-smile{display:none}
-.mascot[data-state="sleepy"] .eyes-closed,
-.mascot[data-state="sleepy"] .m-o{display:block}
-.mascot[data-state="sleepy"] .m-o{transform:scale(.6);transform-origin:60px 81px}
-.mascot[data-state="sleepy"] .ear-l{transform:rotate(-34deg)}
-.mascot[data-state="sleepy"] .ear-r{transform:rotate(34deg)}
-.mascot[data-state="sleepy"] .whole{animation:breathe 5s ease-in-out infinite}
-.mascot[data-state="sleepy"] .head{animation:nod 5s ease-in-out infinite}
-
-@keyframes blinkEye{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
-@keyframes idleHop{0%,55%,100%{transform:translateY(0)}68%{transform:translateY(-7px)}80%{transform:translateY(0) scaleY(.97)}}
-@keyframes earWiggle{0%,60%,100%{transform:rotate(0)}70%{transform:rotate(-12deg)}80%{transform:rotate(4deg)}}
+@keyframes idleHop{0%,60%,100%{transform:translateY(0)}70%{transform:translateY(-9px)}80%{transform:translateY(-3px)}}
 @keyframes idleBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-@keyframes idleSway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
-@keyframes breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.025,.975)}}
-@keyframes perk{0%{transform:translateY(0)}40%{transform:translateY(-6px)}100%{transform:translateY(0)}}
-@keyframes think{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
-@keyframes jump{0%,100%{transform:translateY(0) scale(1)}15%{transform:translateY(0) scale(1.06,.92)}50%{transform:translateY(-18px) scale(.97,1.04)}}
-@keyframes headShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
-@keyframes celebrate{0%,100%{transform:translateY(0) rotate(0)}15%{transform:translateY(0) scale(1.08,.9)}50%{transform:translateY(-26px) rotate(-8deg)}75%{transform:translateY(-10px) rotate(6deg)}}
-@keyframes nod{0%,100%{transform:rotate(0)}50%{transform:rotate(6deg) translateY(2px)}}
+@keyframes perk{50%{transform:translateY(-9px)}}
+@keyframes think{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
+@keyframes jump{0%,100%{transform:translateY(0)}50%{transform:translateY(-24px)}}
+@keyframes headShake{0%,100%{transform:translateX(0)}33%{transform:translateX(-4px)}66%{transform:translateX(4px)}}
 
-/* gelembung reaksi */
+/* gelembung reaksi (kotak teks pixel) */
 .bubble{
-  position:absolute;top:2px;left:-34px;
-  min-width:36px;height:36px;padding:0 9px;
+  position:absolute;top:30px;left:-34px;z-index:1;
+  min-width:38px;height:38px;padding:0 8px;
   display:grid;place-items:center;
-  border-radius:18px;
-  background:#f0fdf4;color:#14532d;
-  font-weight:700;font-size:18px;line-height:1;
-  box-shadow:0 6px 16px rgba(0,0,0,.25);
-  opacity:0;transform:scale(.4) translateY(10px);transform-origin:100% 100%;
-  transition:opacity .2s ease, transform .3s cubic-bezier(.3,1.6,.5,1);
+  background:#fff;color:var(--ink);border:3px solid var(--ink);
+  font-family:var(--px);font-size:16px;line-height:1;
+  box-shadow:3px 3px 0 rgba(0,0,0,.3);
+  opacity:0;transform:translateY(6px);
+  transition:opacity .1s steps(1), transform .2s steps(2);
 }
 .bubble::after{
-  content:"";position:absolute;right:-3px;bottom:-3px;width:12px;height:12px;
-  background:inherit;border-radius:0 0 4px 0;transform:rotate(-20deg);
-  clip-path:polygon(0 0,100% 0,100% 100%);
+  content:"";position:absolute;right:-9px;bottom:6px;width:6px;height:6px;
+  background:#fff;border:3px solid var(--ink);border-left:0;border-bottom:0;
+  box-shadow:3px 0 0 0 transparent;
 }
 .bubble.show{opacity:1;transform:none}
-.bubble .dots{display:flex;gap:3px}
-.bubble .dots i{width:6px;height:6px;border-radius:50%;background:#15803d;animation:dot 1s ease-in-out infinite}
-.bubble .dots i:nth-child(2){animation-delay:.15s}
-.bubble .dots i:nth-child(3){animation-delay:.3s}
-@keyframes dot{0%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-4px);opacity:1}}
-.bubble.zz{background:rgba(224,242,254,.92);color:#1e3a8a;font-size:15px;animation:zz 3s ease-in-out infinite}
-@keyframes zz{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 
 /* =========================================================
    PENYESUAIAN LAYAR
    ========================================================= */
-@media (hover:none){
-  .help{display:none}
-}
+@media (hover:none){.help{display:none}}
 @media (max-height:520px) and (orientation:landscape){
   body{padding-top:max(12px, env(safe-area-inset-top))}
   .calculator{
     width:min(100%, 720px);
-    display:grid;
-    grid-template-columns:1fr 1.25fr;
-    grid-template-rows:auto auto 1fr;
-    column-gap:16px;
-    padding:14px;
+    display:grid;grid-template-columns:1fr 1.25fr;grid-template-rows:auto auto 1fr;column-gap:16px;padding:12px;
   }
-  .top{grid-column:1;margin-bottom:8px;justify-content:flex-start;padding-left:64px}
+  .top{grid-column:1;margin-bottom:8px;justify-content:flex-start;padding-left:66px}
   .toolbar{grid-column:1;margin-bottom:8px}
   .display{grid-column:1;margin:0;min-height:0}
   .buttons{grid-column:2;grid-row:1 / span 3;gap:6px}
-  .buttons button{height:clamp(38px, 15vh, 52px);font-size:18px}
+  .buttons button{height:clamp(38px, 14vh, 50px);font-size:14px}
   .help{display:none}
-  .mascot{top:-6px;left:4px;right:auto;width:58px}
-  .bubble{left:auto;right:-30px;top:-4px;transform-origin:0 100%}
-  .bubble::after{right:auto;left:-3px;transform:scaleX(-1) rotate(-20deg)}
+  .mascot{top:-26px;left:4px;right:auto;width:64px}
+  .bubble{left:auto;right:-40px;top:6px}
+  .bubble::after{right:auto;left:-9px;border-left:3px solid var(--ink);border-right:0}
 }
 @media (max-width:430px){
-  .toolbar{gap:6px}
-  .period-badge,.streak{padding:5px 8px}
-  .period-badge .dot{display:none}
-  #volume{width:56px}
+  .toolbar{gap:5px;font-size:13px}
+  .period-badge,.streak{padding:3px 5px}
 }
 @media (max-width:360px){
-  .calculator{padding:14px;border-radius:22px}
-  .buttons button{border-radius:14px}
-  .toolbar{font-size:12px;gap:5px}
-  .period-badge,.streak{padding:4px 7px}
-  .period-badge .dot,.period-badge time{display:none}
+  .calculator{padding:12px}
+  .period-badge time{display:none}
+  .top h1{font-size:18px}
 }
-
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none !important;transition:none !important}
 }

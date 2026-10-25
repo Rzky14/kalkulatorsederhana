@@ -3,15 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#052e1c" />
+  <meta name="theme-color" content="#0b1a45" />
   <title>Kalkulator Sederhana</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/pixel/karakter/kelinci_idle.png" type="image/png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="no-transition">
-  <!-- ===== latar hutan animasi (suasana mengikuti jam) ===== -->
+  <!-- ===== latar hutan pixel (suasana mengikuti jam) ===== -->
   <div class="forest" aria-hidden="true">
     <div class="sky sky-pagi"></div>
     <div class="sky sky-siang"></div>
@@ -20,156 +18,82 @@
     <div class="sky sky-larut"></div>
 
     <div class="stars"></div>
-    <div class="sun"></div>
-    <div class="moon"></div>
-    <div class="rays"></div>
 
-    <!-- burung terbang (siang hari) -->
+    <!-- burung (pagi–sore), 2 frame kepak -->
     <div class="birds">
-      <div class="bird bird1"><svg viewBox="0 0 40 20"><path class="wing-l" d="M20 12 Q12 2 2 6 Q12 8 20 12Z"/><path class="wing-r" d="M20 12 Q28 2 38 6 Q28 8 20 12Z"/></svg></div>
-      <div class="bird bird2"><svg viewBox="0 0 40 20"><path class="wing-l" d="M20 12 Q12 2 2 6 Q12 8 20 12Z"/><path class="wing-r" d="M20 12 Q28 2 38 6 Q28 8 20 12Z"/></svg></div>
-      <div class="bird bird3"><svg viewBox="0 0 40 20"><path class="wing-l" d="M20 12 Q12 2 2 6 Q12 8 20 12Z"/><path class="wing-r" d="M20 12 Q28 2 38 6 Q28 8 20 12Z"/></svg></div>
+      <div class="bird bird1 flip2"><img src="assets/pixel/hewan/burung_1.png" alt=""><img src="assets/pixel/hewan/burung_2.png" alt=""></div>
+      <div class="bird bird2 flip2"><img src="assets/pixel/hewan/burung_1.png" alt=""><img src="assets/pixel/hewan/burung_2.png" alt=""></div>
+      <div class="bird bird3 flip2"><img src="assets/pixel/hewan/burung_1.png" alt=""><img src="assets/pixel/hewan/burung_2.png" alt=""></div>
     </div>
 
-    <div class="trees far"></div>
-    <div class="trees mid"></div>
-
-    <!-- rusa berjalan (kiri ke kanan) -->
-    <div class="walker deer">
-      <svg viewBox="0 0 130 110">
-        <g class="leg leg-b1"><rect x="34" y="56" width="5" height="44" rx="2.5"/></g>
-        <g class="leg leg-f1"><rect x="84" y="56" width="5" height="44" rx="2.5"/></g>
-        <path d="M30 42 Q24 38 22 46 Q26 46 30 46Z"/>
-        <ellipse cx="60" cy="52" rx="34" ry="15"/>
-        <path d="M80 50 L92 18 L102 20 L94 56Z"/>
-        <ellipse cx="104" cy="20" rx="12" ry="7" transform="rotate(18 104 20)"/>
-        <ellipse cx="94" cy="12" rx="6" ry="2.6" transform="rotate(-35 94 12)"/>
-        <path class="antler" d="M98 14 Q96 2 88 -2 M96 6 Q100 0 104 -4 M101 13 Q104 2 112 -2 M105 6 Q110 4 114 6" fill="none"/>
-        <g class="leg leg-b2"><rect x="42" y="56" width="5" height="44" rx="2.5"/></g>
-        <g class="leg leg-f2"><rect x="76" y="56" width="5" height="44" rx="2.5"/></g>
-      </svg>
+    <!-- hewan yang lewat -->
+    <div class="walker deer flip2"><img src="assets/pixel/hewan/rusa_1.png" alt=""><img src="assets/pixel/hewan/rusa_2.png" alt=""></div>
+    <div class="walker fox flip2"><img src="assets/pixel/hewan/rubah_1.png" alt=""><img src="assets/pixel/hewan/rubah_2.png" alt=""></div>
+    <div class="walker bunny">
+      <img src="assets/pixel/karakter/kelinci_jalan_kiri_1.png" alt="">
+      <img src="assets/pixel/karakter/kelinci_jalan_kiri_2.png" alt="">
+      <img src="assets/pixel/karakter/kelinci_jalan_kiri_3.png" alt="">
+      <img src="assets/pixel/karakter/kelinci_jalan_kiri_4.png" alt="">
     </div>
 
-    <!-- kelinci melompat (kanan ke kiri) -->
-    <div class="walker rabbit">
-      <svg viewBox="0 0 60 50">
-        <ellipse cx="30" cy="34" rx="16" ry="11"/>
-        <circle cx="14" cy="26" r="8"/>
-        <ellipse cx="12" cy="10" rx="3" ry="10" transform="rotate(-12 12 10)"/>
-        <ellipse cx="18" cy="11" rx="3" ry="10" transform="rotate(10 18 11)"/>
-        <circle cx="46" cy="30" r="4.5"/>
-        <ellipse cx="38" cy="44" rx="9" ry="3.5"/>
-        <ellipse cx="20" cy="44" rx="4" ry="3"/>
-        <circle cx="11" cy="25" r="1.3" class="eye"/>
-      </svg>
-    </div>
-
-    <!-- rubah berjalan (kiri ke kanan, lebih lambat) -->
-    <div class="walker fox">
-      <svg viewBox="0 0 120 70">
-        <g class="leg leg-b1"><rect x="32" y="38" width="4" height="26" rx="2"/></g>
-        <g class="leg leg-f1"><rect x="80" y="38" width="4" height="26" rx="2"/></g>
-        <path class="tail" d="M28 36 Q4 30 2 46 Q14 40 30 44Z"/>
-        <ellipse cx="56" cy="38" rx="28" ry="11"/>
-        <path d="M78 34 L96 22 L112 30 L96 38 L84 44Z"/>
-        <path d="M92 24 L94 12 L100 22Z"/>
-        <path d="M98 24 L103 13 L106 25Z"/>
-        <g class="leg leg-b2"><rect x="40" y="38" width="4" height="26" rx="2"/></g>
-        <g class="leg leg-f2"><rect x="72" y="38" width="4" height="26" rx="2"/></g>
-      </svg>
-    </div>
+    <!-- dekorasi tanah -->
+    <img class="deco d-batu" src="assets/pixel/dekorasi/batu.png" alt="">
+    <img class="deco d-jamur" src="assets/pixel/dekorasi/jamur.png" alt="">
+    <img class="deco d-bunga" src="assets/pixel/dekorasi/bunga_merah.png" alt="">
+    <img class="deco d-tunggul" src="assets/pixel/dekorasi/tunggul.png" alt="">
+    <img class="deco d-semak" src="assets/pixel/dekorasi/semak_bunga.png" alt="">
 
     <!-- pohon depan yang bergoyang -->
-    <div class="tree-near t1"></div>
-    <div class="tree-near t2"></div>
-    <div class="tree-near t3"></div>
-    <div class="tree-near t4"></div>
+    <img class="tree-near t1" src="assets/pixel/dekorasi/cemara_besar.png" alt="">
+    <img class="tree-near t2" src="assets/pixel/dekorasi/cemara_besar.png" alt="">
 
-    <div class="ground"></div>
     <div class="fireflies"></div>
     <div class="leaves"></div>
     <div class="tint"></div>
   </div>
 
-  <!-- lapisan konfeti perayaan -->
-  <div class="confetti" aria-hidden="true"></div>
+  <!-- lapisan efek: konfeti, ikon jawaban & error -->
+  <div class="fx" aria-hidden="true"></div>
 
   <main class="calculator">
-    <!-- maskot kelinci yang bereaksi -->
+    <!-- maskot kelinci yang bereaksi (pose dipilih oleh script.js) -->
     <div class="mascot" id="mascot" data-state="idle" aria-hidden="true">
       <div class="bubble" id="bubble"></div>
-      <svg viewBox="0 0 120 130">
-        <g class="whole">
-          <ellipse class="shadow" cx="60" cy="129" rx="34" ry="4"/>
-          <ellipse class="fur" cx="60" cy="104" rx="34" ry="24"/>
-          <ellipse class="belly" cx="60" cy="109" rx="20" ry="15"/>
-          <ellipse class="fur-dark" cx="40" cy="125" rx="12" ry="5.5"/>
-          <ellipse class="fur-dark" cx="80" cy="125" rx="12" ry="5.5"/>
-          <g class="paw paw-l"><ellipse class="fur" cx="42" cy="101" rx="7" ry="11"/></g>
-          <g class="head">
-            <g class="ear ear-l">
-              <ellipse class="fur" cx="45" cy="24" rx="10" ry="26"/>
-              <ellipse class="inner-ear" cx="45" cy="27" rx="5" ry="19"/>
-            </g>
-            <g class="ear ear-r">
-              <ellipse class="fur" cx="75" cy="24" rx="10" ry="26"/>
-              <ellipse class="inner-ear" cx="75" cy="27" rx="5" ry="19"/>
-            </g>
-            <ellipse class="fur" cx="60" cy="66" rx="31" ry="27"/>
-            <ellipse class="blush" cx="39" cy="76" rx="6" ry="4"/>
-            <ellipse class="blush" cx="81" cy="76" rx="6" ry="4"/>
-
-            <g class="brows">
-              <path class="ink-stroke" d="M42 52 L54 55"/>
-              <path class="ink-stroke" d="M66 54 L78 49"/>
-            </g>
-            <g class="eyes-open">
-              <g class="pupils">
-                <circle class="ink" cx="49" cy="63" r="5"/>
-                <circle class="ink" cx="71" cy="63" r="5"/>
-                <circle class="shine" cx="50.8" cy="61.2" r="1.7"/>
-                <circle class="shine" cx="72.8" cy="61.2" r="1.7"/>
-              </g>
-            </g>
-            <g class="eyes-happy">
-              <path class="ink-stroke" d="M43 65 Q49 57 55 65"/>
-              <path class="ink-stroke" d="M65 65 Q71 57 77 65"/>
-            </g>
-            <g class="eyes-closed">
-              <path class="ink-stroke" d="M43 63 Q49 68 55 63"/>
-              <path class="ink-stroke" d="M65 63 Q71 68 77 63"/>
-            </g>
-
-            <path class="nose" d="M56.5 71 L63.5 71 L60 75Z"/>
-            <path class="mouth m-smile ink-stroke" d="M54 77 Q57 81 60 77 Q63 81 66 77"/>
-            <path class="mouth m-open" d="M53 77 Q60 91 67 77 Z"/>
-            <ellipse class="mouth m-o ink" cx="60" cy="81" rx="3" ry="3.6"/>
-            <path class="mouth m-wavy ink-stroke" d="M52 81 Q55 77 58 81 Q61 85 64 81 Q67 77 69 80"/>
-          </g>
-          <g class="paw paw-r"><ellipse class="fur" cx="78" cy="101" rx="7" ry="11"/></g>
-        </g>
-      </svg>
+      <div class="m-body">
+        <img data-pose="idle" src="assets/pixel/karakter/kelinci_idle.png" alt="">
+        <img data-pose="menyapa" src="assets/pixel/karakter/kelinci_menyapa.png" alt="">
+        <img data-pose="membaca" src="assets/pixel/karakter/kelinci_membaca.png" alt="">
+        <img data-pose="duduk" src="assets/pixel/karakter/kelinci_duduk.png" alt="">
+        <img data-pose="duduk_kedip" src="assets/pixel/karakter/kelinci_duduk_kedip.png" alt="">
+        <img data-pose="tidur" src="assets/pixel/karakter/kelinci_tidur.png" alt="">
+        <img data-pose="siap" src="assets/pixel/karakter/kelinci_siap.png" alt="">
+        <img data-pose="berpikir" src="assets/pixel/karakter/kelinci_berpikir.png" alt="">
+        <img data-pose="thumbs_up" src="assets/pixel/karakter/kelinci_thumbs_up.png" alt="">
+        <img data-pose="senang" src="assets/pixel/karakter/kelinci_senang.png" alt="">
+        <img data-pose="lompat" src="assets/pixel/karakter/kelinci_lompat.png" alt="">
+        <img data-pose="bingung" src="assets/pixel/karakter/kelinci_bingung.png" alt="">
+        <img data-pose="sedih" src="assets/pixel/karakter/kelinci_sedih.png" alt="">
+        <img data-pose="menyemangati" src="assets/pixel/karakter/kelinci_menyemangati.png" alt="">
+        <img data-pose="kejutan" src="assets/pixel/karakter/kelinci_kejutan.png" alt="">
+      </div>
     </div>
 
     <header class="top">
-      <span class="leaf" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2 L17 9 H14.5 L19 15 H15.5 L20 21 H13 V23 H11 V21 H4 L8.5 15 H5 L9.5 9 H7 Z"/></svg>
-      </span>
+      <img class="logo" src="assets/pixel/dekorasi/cemara_kecil.png" alt="" aria-hidden="true">
       <h1>Kalkulator Sederhana</h1>
     </header>
 
     <div class="toolbar">
       <span class="period-badge" title="Suasana mengikuti jam perangkat">
-        <span id="periodIcon" aria-hidden="true">🌙</span>
+        <img id="periodIcon" src="assets/pixel/item/ikon_malam.png" alt="">
         <span id="periodLabel">Malam</span>
-        <span class="dot" aria-hidden="true">·</span>
         <time id="clock">--.--</time>
       </span>
-      <span class="streak" id="streak" title="Hitungan berhasil berturut-turut">⭐ <b>0</b></span>
+      <span class="streak" id="streak" title="Hitungan berhasil berturut-turut"><img src="assets/pixel/item/bintang.png" alt=""> <b>0</b></span>
       <div class="sound-ctrl">
         <button type="button" id="muteBtn" class="icon-btn" aria-pressed="false" aria-label="Matikan suara" title="Suara (M)">
-          <svg class="ic-on" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="wave" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none"/></svg>
-          <svg class="ic-off" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="wave" d="M16.5 9.5l5 5M21.5 9.5l-5 5" fill="none"/></svg>
+          <img class="ic-on" src="assets/pixel/ui/ikon_suara_nyala.png" alt="">
+          <img class="ic-off" src="assets/pixel/ui/ikon_suara_mati.png" alt="">
         </button>
         <input type="range" id="volume" min="0" max="100" value="60" aria-label="Volume suara">
       </div>
@@ -182,7 +106,7 @@
 
     <div class="buttons">
       <button data-action="clear" class="fn clear">C</button>
-      <button data-action="back" class="fn" aria-label="Hapus satu">⌫</button>
+      <button data-action="back" class="fn del" aria-label="Hapus satu">DEL</button>
       <button data-value="%" class="fn">%</button>
       <button data-value="/" class="op" aria-label="Bagi">÷</button>
 
@@ -206,7 +130,7 @@
       <button data-action="calculate" class="equals" aria-label="Hitung">=</button>
     </div>
 
-    <footer class="help">Keyboard: Enter = hitung, Esc = hapus, M = suara</footer>
+    <footer class="help">ENTER = hitung · ESC = hapus · M = suara</footer>
   </main>
 
   <script src="script.js"></script>
