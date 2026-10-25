@@ -2,46 +2,124 @@
 <html lang="id">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#052e1c" />
   <title>Kalkulator Sederhana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- ===== latar hutan animasi ===== -->
+  <div class="forest" aria-hidden="true">
+    <div class="moon"></div>
+    <div class="rays"></div>
+
+    <!-- burung terbang -->
+    <div class="bird bird1"><svg viewBox="0 0 40 20"><path class="wing-l" d="M20 12 Q12 2 2 6 Q12 8 20 12Z"/><path class="wing-r" d="M20 12 Q28 2 38 6 Q28 8 20 12Z"/></svg></div>
+    <div class="bird bird2"><svg viewBox="0 0 40 20"><path class="wing-l" d="M20 12 Q12 2 2 6 Q12 8 20 12Z"/><path class="wing-r" d="M20 12 Q28 2 38 6 Q28 8 20 12Z"/></svg></div>
+    <div class="bird bird3"><svg viewBox="0 0 40 20"><path class="wing-l" d="M20 12 Q12 2 2 6 Q12 8 20 12Z"/><path class="wing-r" d="M20 12 Q28 2 38 6 Q28 8 20 12Z"/></svg></div>
+
+    <div class="trees far"></div>
+    <div class="trees mid"></div>
+
+    <!-- rusa berjalan (kiri ke kanan) -->
+    <div class="walker deer">
+      <svg viewBox="0 0 130 110">
+        <g class="leg leg-b1"><rect x="34" y="56" width="5" height="44" rx="2.5"/></g>
+        <g class="leg leg-f1"><rect x="84" y="56" width="5" height="44" rx="2.5"/></g>
+        <path d="M30 42 Q24 38 22 46 Q26 46 30 46Z"/>
+        <ellipse cx="60" cy="52" rx="34" ry="15"/>
+        <path d="M80 50 L92 18 L102 20 L94 56Z"/>
+        <ellipse cx="104" cy="20" rx="12" ry="7" transform="rotate(18 104 20)"/>
+        <ellipse cx="94" cy="12" rx="6" ry="2.6" transform="rotate(-35 94 12)"/>
+        <path class="antler" d="M98 14 Q96 2 88 -2 M96 6 Q100 0 104 -4 M101 13 Q104 2 112 -2 M105 6 Q110 4 114 6" fill="none"/>
+        <g class="leg leg-b2"><rect x="42" y="56" width="5" height="44" rx="2.5"/></g>
+        <g class="leg leg-f2"><rect x="76" y="56" width="5" height="44" rx="2.5"/></g>
+      </svg>
+    </div>
+
+    <!-- kelinci melompat (kanan ke kiri) -->
+    <div class="walker rabbit">
+      <svg viewBox="0 0 60 50">
+        <ellipse cx="30" cy="34" rx="16" ry="11"/>
+        <circle cx="14" cy="26" r="8"/>
+        <ellipse cx="12" cy="10" rx="3" ry="10" transform="rotate(-12 12 10)"/>
+        <ellipse cx="18" cy="11" rx="3" ry="10" transform="rotate(10 18 11)"/>
+        <circle cx="46" cy="30" r="4.5"/>
+        <ellipse cx="38" cy="44" rx="9" ry="3.5"/>
+        <ellipse cx="20" cy="44" rx="4" ry="3"/>
+        <circle cx="11" cy="25" r="1.3" class="eye"/>
+      </svg>
+    </div>
+
+    <!-- rubah berjalan (kiri ke kanan, lebih lambat) -->
+    <div class="walker fox">
+      <svg viewBox="0 0 120 70">
+        <g class="leg leg-b1"><rect x="32" y="38" width="4" height="26" rx="2"/></g>
+        <g class="leg leg-f1"><rect x="80" y="38" width="4" height="26" rx="2"/></g>
+        <path class="tail" d="M28 36 Q4 30 2 46 Q14 40 30 44Z"/>
+        <ellipse cx="56" cy="38" rx="28" ry="11"/>
+        <path d="M78 34 L96 22 L112 30 L96 38 L84 44Z"/>
+        <path d="M92 24 L94 12 L100 22Z"/>
+        <path d="M98 24 L103 13 L106 25Z"/>
+        <g class="leg leg-b2"><rect x="40" y="38" width="4" height="26" rx="2"/></g>
+        <g class="leg leg-f2"><rect x="72" y="38" width="4" height="26" rx="2"/></g>
+      </svg>
+    </div>
+
+    <!-- pohon depan yang bergoyang -->
+    <div class="tree-near t1"></div>
+    <div class="tree-near t2"></div>
+    <div class="tree-near t3"></div>
+    <div class="tree-near t4"></div>
+
+    <div class="ground"></div>
+    <div class="fireflies"></div>
+    <div class="leaves"></div>
+  </div>
+
   <main class="calculator">
-    <h1>Kalkulator Sederhana</h1>
+    <header class="top">
+      <span class="leaf" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2 L17 9 H14.5 L19 15 H15.5 L20 21 H13 V23 H11 V21 H4 L8.5 15 H5 L9.5 9 H7 Z"/></svg>
+      </span>
+      <h1>Kalkulator Sederhana</h1>
+    </header>
 
     <div class="display">
-      <input type="text" id="expression" placeholder="0" readonly />
-      <div id="result">0</div>
+      <input type="text" id="expression" placeholder="0" readonly inputmode="none" tabindex="-1" aria-label="Ekspresi" />
+      <div id="result" aria-live="polite">0</div>
     </div>
 
     <div class="buttons">
-      <button data-action="clear" class="wide">C</button>
-      <button data-action="back">⌫</button>
-      <button data-value="%">%</button>
-      <button data-value="/">÷</button>
+      <button data-action="clear" class="fn clear">C</button>
+      <button data-action="back" class="fn" aria-label="Hapus satu">⌫</button>
+      <button data-value="%" class="fn">%</button>
+      <button data-value="/" class="op" aria-label="Bagi">÷</button>
 
       <button data-value="7">7</button>
       <button data-value="8">8</button>
       <button data-value="9">9</button>
-      <button data-value="*">×</button>
+      <button data-value="*" class="op" aria-label="Kali">×</button>
 
       <button data-value="4">4</button>
       <button data-value="5">5</button>
       <button data-value="6">6</button>
-      <button data-value="-">−</button>
+      <button data-value="-" class="op" aria-label="Kurang">−</button>
 
       <button data-value="1">1</button>
       <button data-value="2">2</button>
       <button data-value="3">3</button>
-      <button data-value="+">+</button>
+      <button data-value="+" class="op" aria-label="Tambah">+</button>
 
       <button data-value="0" class="wide">0</button>
       <button data-value=".">.</button>
-      <button data-action="calculate">=</button>
+      <button data-action="calculate" class="equals" aria-label="Hitung">=</button>
     </div>
 
-    <footer class="help">Klik tombol atau gunakan keyboard. Operator: + − × ÷ %</footer>
+    <footer class="help">Klik tombol atau gunakan keyboard (Enter = hitung, Esc = hapus)</footer>
   </main>
 
   <script src="script.js"></script>

@@ -1,82 +1,423 @@
 :root{
-  --bg:#f3f4f6;
-  --card:#ffffff;
-  --accent:#2563eb;
-  --muted:#6b7280;
+  --bg-1:#021a10;
+  --bg-2:#063d27;
+  --card:rgba(10, 46, 31, 0.55);
+  --card-border:rgba(134, 239, 172, 0.18);
+  --key:rgba(255,255,255,0.06);
+  --key-hover:rgba(255,255,255,0.11);
+  --key-text:#ecfdf5;
+  --fn:rgba(134, 239, 172, 0.14);
+  --fn-text:#bbf7d0;
+  --op:rgba(52, 211, 153, 0.22);
+  --op-text:#6ee7b7;
+  --accent-1:#34d399;
+  --accent-2:#10b981;
+  --accent-3:#059669;
+  --muted:#86b8a0;
+  --danger:#fca5a5;
+  --radius:18px;
+  --gap:clamp(8px, 2.6vw, 12px);
 }
-*{box-sizing:border-box}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+html,body{height:100%}
+
 body{
-  font-family:Segoe UI, Roboto, Arial, sans-serif;
-  background:linear-gradient(180deg,#eef2ff 0%,var(--bg) 100%);
+  margin:0;
+  min-height:100vh;
+  min-height:100dvh;
   display:flex;
   align-items:center;
   justify-content:center;
-  height:100vh;
-  margin:0;
-  color:#111827;
+  padding:max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
+          max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  font-family:'Outfit', 'Segoe UI', Roboto, Arial, sans-serif;
+  color:var(--key-text);
+  background:#04170d;
+  overflow-x:hidden;
 }
+
+/* ================= HUTAN ================= */
+.forest{
+  position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none;
+  background:linear-gradient(180deg, #06281a 0%, #0b4a30 45%, #2f7a4a 72%, #0b3a24 100%);
+  --ground-h:clamp(46px, 9vh, 90px);
+}
+
+/* bulan + cahaya */
+.moon{
+  position:absolute;top:7vh;right:12vw;
+  width:clamp(60px, 11vw, 110px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 38% 38%, #fefce8, #d9f99d 60%, #a3e635);
+  box-shadow:0 0 50px 18px rgba(217,249,157,.35), 0 0 140px 60px rgba(163,230,53,.15);
+  animation:moonGlow 6s ease-in-out infinite;
+}
+@keyframes moonGlow{50%{box-shadow:0 0 70px 26px rgba(217,249,157,.45), 0 0 180px 80px rgba(163,230,53,.2)}}
+
+.rays{
+  position:absolute;inset:-20% -10% auto;height:120%;
+  background:repeating-linear-gradient(105deg, transparent 0 60px, rgba(220,252,231,.05) 60px 110px, transparent 110px 200px);
+  mask-image:linear-gradient(180deg, #000 0%, transparent 75%);
+  -webkit-mask-image:linear-gradient(180deg, #000 0%, transparent 75%);
+  animation:rays 14s ease-in-out infinite alternate;
+}
+@keyframes rays{from{transform:translateX(-40px)}to{transform:translateX(40px)}}
+
+/* barisan pohon cemara (siluet SVG berulang) */
+.trees{position:absolute;left:-5%;right:-5%;background-repeat:repeat-x;background-position:bottom left}
+.trees.far{
+  bottom:calc(var(--ground-h) + 6px);height:34vh;opacity:.75;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 200'%3E%3Cpath fill='%2318633f' d='M50 0L78 60H64L88 110H71L98 170H55V200H45V170H2L29 110H12L36 60H22Z'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 200'%3E%3Cpath fill='%23145a39' d='M50 0L78 60H64L88 110H71L98 170H55V200H45V170H2L29 110H12L36 60H22Z'/%3E%3C/svg%3E");
+  background-size:70px 150px, 95px 210px;
+  background-position:0 100%, 35px 100%;
+  animation:drift 120s linear infinite;
+}
+.trees.mid{
+  bottom:var(--ground-h);height:30vh;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 200'%3E%3Cpath fill='%230c3f27' d='M50 0L78 60H64L88 110H71L98 170H55V200H45V170H2L29 110H12L36 60H22Z'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 200'%3E%3Cpath fill='%230a3522' d='M50 0L78 60H64L88 110H71L98 170H55V200H45V170H2L29 110H12L36 60H22Z'/%3E%3C/svg%3E");
+  background-size:110px 200px, 150px 260px;
+  background-position:20px 100%, 90px 100%;
+  animation:drift 80s linear infinite reverse;
+}
+@keyframes drift{to{background-position-x:600px, 635px}}
+
+/* tanah */
+.ground{
+  position:absolute;left:0;right:0;bottom:0;height:var(--ground-h);
+  background:
+    radial-gradient(60% 120% at 20% 0%, #0d3b23 0%, transparent 70%),
+    linear-gradient(180deg, #082c19, #031309);
+  border-top:2px solid #0e4429;
+}
+
+/* pohon depan yang bergoyang */
+.tree-near{
+  position:absolute;bottom:calc(var(--ground-h) - 10px);
+  width:clamp(90px, 16vw, 180px);aspect-ratio:1/2;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 200'%3E%3Cpath fill='%23041a0e' d='M50 0L78 60H64L88 110H71L98 170H55V200H45V170H2L29 110H12L36 60H22Z'/%3E%3C/svg%3E") no-repeat bottom/contain;
+  transform-origin:50% 100%;
+  animation:sway 6s ease-in-out infinite;
+  z-index:3;
+}
+.t1{left:-4vw;height:auto;width:clamp(110px, 20vw, 220px);animation-delay:-1s}
+.t2{left:11vw;width:clamp(70px, 11vw, 120px);animation-delay:-3s;animation-duration:7s}
+.t3{right:-3vw;width:clamp(120px, 21vw, 230px);animation-delay:-2s;animation-duration:5.5s}
+.t4{right:13vw;width:clamp(65px, 10vw, 110px);animation-delay:-4s}
+@keyframes sway{0%,100%{transform:rotate(-1.6deg)}50%{transform:rotate(1.6deg)}}
+
+/* ---------- hewan yang lewat ---------- */
+.walker{position:absolute;left:0;bottom:calc(var(--ground-h) - 6px);z-index:2}
+.walker svg{display:block;width:100%;height:auto;overflow:visible;fill:#03140a}
+.walker .antler{stroke:#03140a;stroke-width:2.6;stroke-linecap:round}
+.walker .eye{fill:#bef264}
+
+.deer{width:clamp(80px, 13vw, 130px);animation:walkRight 32s linear infinite}
+.deer svg{animation:bob .6s ease-in-out infinite}
+.fox{width:clamp(64px, 10vw, 105px);animation:walkRight 44s linear -22s infinite}
+.fox svg{animation:bob .45s ease-in-out infinite}
+.fox .tail{transform-origin:28px 40px;animation:tail 1s ease-in-out infinite}
+.rabbit{width:clamp(36px, 5.5vw, 54px);bottom:calc(var(--ground-h) - 4px);animation:walkLeft 20s linear -6s infinite}
+.rabbit svg{animation:hop .7s cubic-bezier(.3,0,.6,1) infinite}
+
+/* kaki berayun */
+.leg{transform-box:fill-box;transform-origin:50% 0}
+.deer .leg{animation:legSwing .6s ease-in-out infinite}
+.fox .leg{animation:legSwing .45s ease-in-out infinite}
+.leg-b2,.leg-f1{animation-direction:reverse !important}
+
+@keyframes walkRight{from{transform:translateX(-20vw)}to{transform:translateX(120vw)}}
+@keyframes walkLeft{from{transform:translateX(120vw) scaleX(1)}to{transform:translateX(-20vw) scaleX(1)}}
+@keyframes legSwing{0%,100%{transform:rotate(18deg)}50%{transform:rotate(-18deg)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes hop{0%,100%{transform:translateY(0) scaleY(1)}10%{transform:translateY(0) scaleY(.85)}45%{transform:translateY(-55%) scaleY(1.05)}80%{transform:translateY(0)}}
+@keyframes tail{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(8deg)}}
+
+/* burung */
+.bird{position:absolute;left:0;width:clamp(22px, 3vw, 34px);z-index:1}
+.bird svg{display:block;width:100%;fill:#04210f;overflow:visible}
+.bird .wing-l,.bird .wing-r{transform-origin:20px 12px;animation:flap .35s ease-in-out infinite alternate}
+.bird .wing-r{animation-name:flapR}
+.bird1{top:14vh;animation:fly 18s linear infinite}
+.bird2{top:19vh;animation:fly 18s linear -.6s infinite;transform:scale(.8)}
+.bird2 svg{transform:scale(.8)}
+.bird3{top:11vh;animation:fly 24s linear -9s infinite}
+@keyframes fly{
+  0%{transform:translate(-10vw, 0)}
+  25%{transform:translate(25vw, -3vh)}
+  50%{transform:translate(55vw, 1vh)}
+  75%{transform:translate(85vw, -2vh)}
+  100%{transform:translate(115vw, 0)}
+}
+@keyframes flap{from{transform:rotate(0)}to{transform:rotate(28deg)}}
+@keyframes flapR{from{transform:rotate(0)}to{transform:rotate(-28deg)}}
+
+/* kunang-kunang */
+.firefly{
+  position:absolute;width:5px;height:5px;border-radius:50%;
+  background:#ecfccb;
+  box-shadow:0 0 8px 3px rgba(217,249,157,.8), 0 0 18px 6px rgba(163,230,53,.4);
+  animation:fireflyMove var(--dur) ease-in-out var(--delay) infinite alternate,
+            blink var(--blink) ease-in-out var(--delay) infinite;
+  z-index:4;
+}
+@keyframes fireflyMove{to{transform:translate(var(--dx), var(--dy))}}
+@keyframes blink{0%,100%{opacity:.1}50%{opacity:1}}
+
+/* daun berguguran */
+.leaf-fall{
+  position:absolute;top:-30px;
+  width:var(--size);height:calc(var(--size) * .6);
+  background:var(--color);
+  border-radius:0 100% 0 100%;
+  opacity:.85;
+  animation:fall var(--dur) linear var(--delay) infinite;
+  z-index:4;
+}
+@keyframes fall{
+  0%{transform:translate(0, 0) rotate(0deg)}
+  25%{transform:translate(30px, 27vh) rotate(120deg)}
+  50%{transform:translate(-20px, 55vh) rotate(220deg)}
+  75%{transform:translate(25px, 82vh) rotate(320deg)}
+  100%{transform:translate(-10px, 110vh) rotate(420deg)}
+}
+
+/* ---------- kartu kalkulator ---------- */
 .calculator{
-  width:340px;
+  position:relative;
+  z-index:1;
+  width:min(100%, 380px);
+  padding:clamp(16px, 5vw, 24px);
+  border-radius:28px;
   background:var(--card);
-  border-radius:12px;
-  box-shadow:0 6px 24px rgba(15,23,42,0.08);
-  padding:18px;
+  border:1px solid var(--card-border);
+  backdrop-filter:blur(22px) saturate(140%);
+  -webkit-backdrop-filter:blur(22px) saturate(140%);
+  box-shadow:
+    0 30px 60px -20px rgba(0,0,0,.6),
+    inset 0 1px 0 rgba(255,255,255,.08);
+  animation:rise .7s cubic-bezier(.2,.8,.2,1) both;
 }
-.calculator h1{
-  font-size:18px;
-  margin:0 0 12px 0;
-  text-align:center;
+
+@keyframes rise{
+  from{opacity:0;transform:translateY(30px) scale(.96)}
+  to{opacity:1;transform:none}
 }
-.display{
-  background:#f8fafc;
-  border-radius:8px;
-  padding:12px;
-  margin-bottom:12px;
-  display:grid;
-  grid-template-columns:1fr auto;
+
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:center;
   gap:8px;
-  align-items:end;
+  margin-bottom:16px;
 }
+.leaf{
+  display:grid;place-items:center;
+  width:30px;height:30px;border-radius:10px;
+  color:#052e1c;
+  background:linear-gradient(135deg, var(--accent-1), #a3e635);
+  animation:sway 4s ease-in-out infinite;
+}
+@keyframes sway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+
+.top h1{
+  margin:0;
+  font-size:clamp(16px, 4.6vw, 19px);
+  font-weight:600;
+  letter-spacing:.3px;
+  background:linear-gradient(90deg, #d1fae5, var(--accent-1), #a3e635, #d1fae5);
+  background-size:300% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:shine 6s linear infinite;
+}
+@keyframes shine{to{background-position:300% 0}}
+
+/* ---------- layar ---------- */
+.display{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:4px;
+  padding:16px 18px;
+  margin-bottom:18px;
+  min-height:110px;
+  justify-content:flex-end;
+  border-radius:20px;
+  background:linear-gradient(160deg, rgba(0,0,0,.35), rgba(0,0,0,.18));
+  border:1px solid rgba(134,239,172,.12);
+  box-shadow:inset 0 2px 12px rgba(0,0,0,.35);
+  overflow:hidden;
+}
+.display::after{
+  content:"";
+  position:absolute;left:0;right:0;bottom:0;height:2px;
+  background:linear-gradient(90deg, transparent, var(--accent-1), transparent);
+  opacity:.7;
+  animation:scan 3.5s ease-in-out infinite;
+}
+@keyframes scan{0%,100%{transform:translateX(-60%)}50%{transform:translateX(60%)}}
+
 #expression{
+  width:100%;
   border:0;
+  outline:0;
   background:transparent;
-  font-size:20px;
+  text-align:right;
+  font:inherit;
+  font-size:clamp(17px, 5vw, 20px);
   color:var(--muted);
+  caret-color:transparent;
+  pointer-events:none;
 }
 #result{
-  font-size:24px;
-  font-weight:600;
+  max-width:100%;
+  text-align:right;
+  overflow-wrap:anywhere;
+  font-size:clamp(34px, 11vw, 46px);
+  font-weight:700;
+  line-height:1.1;
+  color:#f0fdf4;
+  text-shadow:0 0 24px rgba(52,211,153,.35);
 }
+#result.long{font-size:clamp(24px, 7vw, 30px)}
+#result.pop{animation:pop .45s cubic-bezier(.3,1.6,.5,1)}
+#result.error{color:var(--danger);text-shadow:0 0 20px rgba(248,113,113,.4)}
+.display.shake{animation:shake .4s}
+
+@keyframes pop{
+  0%{transform:scale(.7);opacity:0}
+  100%{transform:scale(1);opacity:1}
+}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  20%,60%{transform:translateX(-7px)}
+  40%,80%{transform:translateX(7px)}
+}
+
+/* ---------- tombol ---------- */
 .buttons{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
+  grid-template-columns:repeat(4, 1fr);
+  gap:var(--gap);
 }
+
 button{
-  padding:14px 12px;
-  border-radius:8px;
-  border:0;
-  font-size:16px;
-  background:#f3f4f6;
+  position:relative;
+  overflow:hidden;
+  height:clamp(56px, 16vw, 66px);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:var(--radius);
+  font:inherit;
+  font-size:clamp(20px, 6vw, 23px);
+  font-weight:400;
+  color:var(--key-text);
+  background:var(--key);
   cursor:pointer;
-  box-shadow:inset 0 -2px 0 rgba(0,0,0,0.03);
+  touch-action:manipulation;
+  user-select:none;
+  -webkit-user-select:none;
+  box-shadow:0 4px 0 rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.06);
+  transition:transform .12s ease, background-color .2s ease, box-shadow .12s ease;
+  animation:keyIn .5s cubic-bezier(.2,.8,.2,1) both;
 }
-button:hover{filter:brightness(0.98)}
-button:active{transform:translateY(1px)}
-button[data-action="calculate"]{
-  background:var(--accent);
-  color:#fff;
+/* muncul bergiliran */
+.buttons button:nth-child(4n+1){animation-delay:.10s}
+.buttons button:nth-child(4n+2){animation-delay:.16s}
+.buttons button:nth-child(4n+3){animation-delay:.22s}
+.buttons button:nth-child(4n+4){animation-delay:.28s}
+
+@keyframes keyIn{
+  from{opacity:0;transform:translateY(14px) scale(.9)}
+  to{opacity:1;transform:none}
 }
-button[data-action="clear"]{
-  background:#fef3c7;
+
+@media (hover:hover){
+  button:hover{background:var(--key-hover);transform:translateY(-2px)}
+  button.op:hover{background:rgba(52,211,153,.32)}
+  button.fn:hover{background:rgba(134,239,172,.22)}
 }
+button:active,
+button.pressed{
+  transform:translateY(3px) scale(.97);
+  box-shadow:0 1px 0 rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.04);
+}
+button:focus-visible{outline:2px solid var(--accent-1);outline-offset:2px}
+
+button.fn{background:var(--fn);color:var(--fn-text);font-size:clamp(18px, 5.4vw, 21px)}
+button.clear{color:#fef08a}
+button.op{background:var(--op);color:var(--op-text);font-weight:600}
+button.op.active{background:var(--accent-1);color:#052e1c}
+
+button.equals{
+  color:#04210f;
+  font-weight:700;
+  background:linear-gradient(135deg, var(--accent-1), var(--accent-3));
+  background-size:200% 200%;
+  border:0;
+  box-shadow:0 4px 0 #04603f, 0 10px 24px -6px rgba(16,185,129,.7);
+  animation:keyIn .5s cubic-bezier(.2,.8,.2,1) .28s both, glow 3s ease-in-out 1s infinite;
+}
+button.equals:active,
+button.equals.pressed{box-shadow:0 1px 0 #04603f, 0 4px 12px -4px rgba(16,185,129,.7)}
+@keyframes glow{
+  0%,100%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+}
+
 button.wide{grid-column:span 2}
+
+/* efek riak saat ditekan */
+.ripple{
+  position:absolute;
+  border-radius:50%;
+  transform:scale(0);
+  background:rgba(255,255,255,.35);
+  pointer-events:none;
+  animation:ripple .55s ease-out forwards;
+}
+@keyframes ripple{to{transform:scale(2.6);opacity:0}}
+
 .help{
-  margin-top:12px;
-  font-size:13px;
+  margin-top:16px;
+  font-size:12.5px;
   color:var(--muted);
   text-align:center;
+  line-height:1.5;
 }
-@media (max-width:380px){
-  .calculator{width:92vw}
+
+/* ---------- penyesuaian layar ---------- */
+@media (hover:none){
+  .help{display:none} /* di HP petunjuk keyboard tidak perlu */
+}
+/* HP posisi miring: layar di kiri, tombol di kanan */
+@media (max-height:520px) and (orientation:landscape){
+  .calculator{
+    width:min(100%, 720px);
+    display:grid;
+    grid-template-columns:1fr 1.25fr;
+    grid-template-rows:auto 1fr;
+    column-gap:16px;
+    padding:14px;
+  }
+  .top{grid-column:1;margin-bottom:10px}
+  .display{grid-column:1;margin:0;min-height:0}
+  .buttons{grid-column:2;grid-row:1 / span 2;gap:6px}
+  button{height:clamp(38px, 15vh, 52px);font-size:18px}
+  .help{display:none}
+}
+@media (max-width:340px){
+  .calculator{padding:14px;border-radius:22px}
+  button{border-radius:14px}
+}
+
+/* hormati pengguna yang mematikan animasi */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
 }
