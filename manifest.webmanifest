@@ -1,0 +1,17 @@
+{
+  "name": "Kalkulator Sederhana",
+  "short_name": "Kalkulator",
+  "description": "Kalkulator pixel art bertema hutan yang berubah mengikuti jam.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b1a45",
+  "theme_color": "#24452f",
+  "icons": [
+    { "src": "assets/pixel/ikon/ikon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/pixel/ikon/ikon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "assets/pixel/ikon/ikon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

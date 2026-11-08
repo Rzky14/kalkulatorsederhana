@@ -51,11 +51,20 @@ class App {
     ['pointerdown', 'keydown', 'touchstart'].forEach((ev) =>
       window.addEventListener(ev, () => this.sound.unlock(), { once: true, capture: true, passive: true }));
 
+    this.#registerOffline();
     this.scene.build();
     this.time.start();
     this.calculator.render();
     // aktifkan transisi suasana setelah tampilan pertama tergambar
     requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.remove('no-transition')));
+  }
+
+  /** Simpan aplikasi di perangkat agar bisa dipakai offline & dipasang di layar utama (hanya saat online via http/https). */
+  #registerOffline() {
+    if (!('serviceWorker' in navigator) || !location.protocol.startsWith('http')) return;
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => { /* abaikan: aplikasi tetap jalan tanpa offline */ });
+    });
   }
 }
 

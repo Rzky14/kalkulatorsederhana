@@ -3,12 +3,19 @@
 Kalkulator bergaya pixel art 8-bit dengan latar hutan yang berubah mengikuti jam,
 maskot kelinci yang bereaksi, efek suara, dan hewan yang berbeda tiap waktu.
 
-Buka `index.html` langsung di browser — tidak perlu server atau instalasi.
+**Coba langsung:** https://rzky14.github.io/kalkulatorsederhana/
+
+- Bisa dibuka di HP, tablet, dan komputer (layout menyesuaikan layar, juga mode miring).
+- Bisa dipasang seperti aplikasi: di HP pilih **Tambahkan ke Layar Utama** / **Install app**.
+- Tetap jalan tanpa internet setelah dibuka sekali (PWA + service worker).
+- Atau buka `index.html` langsung di browser — tidak perlu server atau instalasi.
 
 ## Struktur
 
 ```
 index.html            halaman utama
+manifest.webmanifest  info aplikasi untuk dipasang di layar utama (PWA)
+sw.js                 service worker: simpan file agar bisa dipakai offline
 css/
   base.css            font, warna dasar, variabel suasana per waktu
   forest.css          latar hutan, bintang, dekorasi, hewan dasar, daun
